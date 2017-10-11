@@ -39,30 +39,29 @@ Aleksander Marinkovic (Matrikelnummer2)\\
 (1-2 Seiten)
 \section{Ziel}
 Ziel des Projekts\\
-\textit{Kommentar: erklärt euer Projekt in einem Satz}
+\textit{Die gewonnen Schnapskarten werden automatisch erkannt und die Punkte errechnet.}
 \section{Eingabe}
-Erwarteter Input (Datentyp, Eigenschaften, eventuell zusätzliche Parameter)\\
-\textit{Kommentar: Welche Eingabe benötigt euer Programm, muss der User Parameter wählen, etc. ?}
+Erwarteter Input (.PNG\/.JPG\/.JPEG, Farbbild der Karten)\\
+\textit{Der Benutzer muss nur ein Farbbild der Karten (aufgereiht) bereitstellen.}
 \section{Ausgabe}
-visuell:\\
 textuell:\\
-\textit{Kommentar: In welcher Form wird dem User der Output eures Programms präsentiert?}
+\textit{Die erreichte Punktzahl wird dem User in Text-Form ausgegeben.}
 \section{Voraussetzungen und Bedingungen}
 Voraussetzungen für Eingabe definieren, anhand dieser werden Datensätze erstellt\\
-\textit{Kommentar: Welche Eigenschaften muss der Input erfüllen, damit ihr damit arbeiten könnt (zB.: Kameraeinstellungen, Hintergrundeigenschaften, etc.)?}
+\textit{Ein Farbbild der Aufgereihten Karten. Zwischen den Karten muss etwas Platz gelassen werden. Der Hintergrund sollte möglichst Einfarbig sein. Die Kamera soll sich in einem Winkel von 45 bis 90 Grad befinden.}
 \section{Methodik}
 Methodik- Pipeline
 \begin{enumerate}
-	\item Methode 1
-	\item Methode 2
-	\item ...
+	\item Geometrische Transformation
+	\item Kanten-Filter
+	\item Template-Matching
 \end{enumerate}
 \textit{Kommentar: Die folgenden Fragen sollten hier bedacht und beantwortet werden: Welche Arbeitsschritte sind notwendig um für den gegebenen Input den entsprechenden Output zu berechnen? Wozu sind die jeweiligen Methoden notwendig – d.h. welche konkrete Methoden wird für diese Arbeitsschritte verwendet?}
 \section{Evaluierung}
 \begin{itemize}
-	\item Evaluierungsfrage 1
-	\item Evaluierungsfrage 2
-	\item ...
+	\item Um das Eingabebild vorzubereiten wird aus dem, bis zu 45 Grad schrägen Bild, ein Bild aus der Vogelperspektive (90 Grad)
+	\item Um die einzelnen Spielkarten zu trennen wird eine Kantendetektion durchgeführt.
+	\item Um die Spielkarte zu identifizieren wird ein Pattern-Matching durchgeführt.
 \end{itemize}
 \textit{Kommentar: Eine qualitative Evaluierung basiert auf der subjektiven Wahrnehmung einer Person (Ist ein Ergebnis gut oder schlecht?). Ihr sollte hier aber vor allem auch eine quantitative Evaluierung durchführen, d.h. eine objektive Evaluierung durch Vergleich eurer (Zwischen-)Ergebnisse mit ground truth (ein klassisches Beispiel: Für wie viele der Test-Datensätze wurde für Aufgabe xy ein korrektes Ergebnis erzielt?).}
 \section{Datenbeispiel}
@@ -79,7 +78,9 @@ Methodik- Pipeline
 		\hline
 		Meilenstein & abgeschlossen am & Arbeitsaufwand in h\\
 		\hline
-		...&... &...\\
+		Projekt aussuchen& 11.10.2017 & 5\\
+		Konzept erstellen& ... & ...\\
+		... & ... & ... \\
 		\hline
 		\end{tabular}
 \end{table}
