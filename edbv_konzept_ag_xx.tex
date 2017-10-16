@@ -1,8 +1,6 @@
-%%Berichtvorlage für EDBV WS 2015/2016
-
 \documentclass[deutsch]{scrartcl}
 \usepackage[ngerman]{babel}
-\usepackage[utf8]{inputenc}
+%\usepackage[utf8]{inputenc}
 \usepackage{algorithmic}
 \usepackage{algorithm}
 \usepackage{graphicx}
@@ -20,11 +18,11 @@
 
 
 %%Namen und Matrikelnummern der Gruppenmitglieder hier eintragen
-\author{Jan Michael Lajarno (Matrikelnummer1)\\
-Andreas Brunner (Matrikelnummer2)\\
-Miran Jank (Matrikelnummer2)\\
+\author{Jan Michael Lajarno (01425799)\\
+Andreas Brunner (01429369)\\
+Miran Jank (01526438)\\
 Thorsten Korpitsch (01529243)\\
-Aleksander Marinkovic (Matrikelnummer2)\\
+Aleksandar Marinkovic (01634028)\\
 }
 
 
@@ -36,19 +34,18 @@ Aleksander Marinkovic (Matrikelnummer2)\\
 
 %%------------------------------------------------------
 
-(1-2 Seiten)
 \section{Ziel}
 Ziel des Projekts\\
-\textit{Die gewonnen Schnapskarten werden automatisch erkannt und die Punkte errechnet.}
+\textit{Der Gewinner einer Runde wird erkannt(der Stich) und die Punkte werden dem Gewinner zugerechnet. Am Ende wird der Gewinner gekührt.}
 \section{Eingabe}
-Erwarteter Input (.PNG\/.JPG\/.JPEG, Farbbild der Karten)\\
+Erwarteter Input (.PNG/.JPG/.JPEG, Farbbild der Karten)\\
 \textit{Der Benutzer muss nur ein Farbbild der Karten (aufgereiht) bereitstellen.}
 \section{Ausgabe}
 textuell:\\
-\textit{Die erreichte Punktzahl wird dem User in Text-Form ausgegeben.}
+\textit{In der Konsole wird ein Zwischenstand nach jeder Runde ausgegeben, am Ende wird der Gewinner ausgegeben und der Endstand.}
 \section{Voraussetzungen und Bedingungen}
 Voraussetzungen für Eingabe definieren, anhand dieser werden Datensätze erstellt\\
-\textit{Ein Farbbild der Aufgereihten Karten. Zwischen den Karten muss etwas Platz gelassen werden. Der Hintergrund sollte möglichst Einfarbig sein. Die Kamera soll sich in einem Winkel von 45 bis 90 Grad befinden.}
+\textit{Ein Farbbild der Karten. Der Hintergrund sollte möglichst Einfarbig sein (nicht weiß, texturarm). Die Kamera soll sich in einem Winkel von 45 bis 135 Grad befinden. Die Karten müssen mit einem dünnen schwarzen Rand preperiert sein.}
 \section{Methodik}
 Methodik- Pipeline
 \begin{enumerate}
@@ -56,14 +53,12 @@ Methodik- Pipeline
 	\item Kanten-Filter
 	\item Template-Matching
 \end{enumerate}
-\textit{Kommentar: Die folgenden Fragen sollten hier bedacht und beantwortet werden: Welche Arbeitsschritte sind notwendig um für den gegebenen Input den entsprechenden Output zu berechnen? Wozu sind die jeweiligen Methoden notwendig – d.h. welche konkrete Methoden wird für diese Arbeitsschritte verwendet?}
 \section{Evaluierung}
 \begin{itemize}
-	\item Um das Eingabebild vorzubereiten wird aus dem, bis zu 45 Grad schrägen Bild, ein Bild aus der Vogelperspektive (90 Grad)
-	\item Um die einzelnen Spielkarten zu trennen wird eine Kantendetektion durchgeführt.
-	\item Um die Spielkarte zu identifizieren wird ein Pattern-Matching durchgeführt.
+	\item Um das Eingabebild vorzubereiten wird aus dem, bis zu 45 Grad schrägen Bild, ein Bild aus der Vogelperspektive (90 Grad) transformiert
+	\item Um die einzelnen Spielkarten zu trennen wird eine Kantendetektion durchgeführt
+	\item Um die Spielkarte zu identifizieren wird ein Pattern-Matching durchgeführt
 \end{itemize}
-\textit{Kommentar: Eine qualitative Evaluierung basiert auf der subjektiven Wahrnehmung einer Person (Ist ein Ergebnis gut oder schlecht?). Ihr sollte hier aber vor allem auch eine quantitative Evaluierung durchführen, d.h. eine objektive Evaluierung durch Vergleich eurer (Zwischen-)Ergebnisse mit ground truth (ein klassisches Beispiel: Für wie viele der Test-Datensätze wurde für Aufgabe xy ein korrektes Ergebnis erzielt?).}
 \section{Datenbeispiel}
 \begin{figure}[h!]
  \centering
@@ -71,6 +66,7 @@ Methodik- Pipeline
  \caption{puppy}
  \label{fig:img}
 \end{figure}
+\newpage
 \section{Zeitplan}
 \begin{table}[h!]
 	\centering
@@ -78,21 +74,22 @@ Methodik- Pipeline
 		\hline
 		Meilenstein & abgeschlossen am & Arbeitsaufwand in h\\
 		\hline
-		Projekt aussuchen& 11.10.2017 & 5\\
-		Konzept erstellen& ... & ...\\
-		... & ... & ... \\
+		Vorarbeit Projekt & 20.10.2017 & 20\\
+		Prototyp erstellen& ... & 40\\
+		Geometrische Transformation& ... & 105 \\
+		GT-Test & ... & 10 \\
+		Kantendetektion& ... & 67 \\
+		KD-Test & ... & 5 \\
+		Pattern-Matching & ... & 43\\
+		PM-Test & ... & 5 \\
+		Unit-Test & ... & 5 \\
 		\hline
 		\end{tabular}
 \end{table}
-\textit{Kommentar: Definiert euch „Meilensteine“. Die vorgegebenen Termine (zB. Zwischenpräsentation) sind hier nicht von Interesse, stellt euch eher die Frage: Wann rechnet ihr mit einem fertigen Prototyp (mit Hilfe von Matlab-Toolboxes)? Wann soll danach ein gewisser Arbeitsschritt (entsprechend eurer Methodik-Pipeline) fertig implementiert sein? Plant auch Zeit für zB. Tests, Evaluierung etc. ein.
-Gebt weiters pro Arbeitsschritt an, wieviel Arbeitsaufwand (Stunden) eurer Meinung nach zur Umsetzung notwendig sind. Bedenkt, dass es sich bei EDBV um eine Übung im Ausmaß von 3.0 ECTs handelt. Für 1.0 ECTs rechnet man mit 25h Arbeitsaufwand pro Semester. Auf Teil1 (die Gruppenphase von EDBV) entfallen 2.4 dieser 3.0 ECTs und somit 60h Arbeit pro Gruppenmitglied. Wir rechnen daher für Teil 1 mit 300h Arbeit pro Gruppe.
-}\\
-\\
-\textit{Kommentar: Gebt eine relevante Literaturquelle (Bücher bzw. Kapitel, Konferenz- oder Journal-Papers) pro Gruppenmitglied (im kompilierten Bibtex-Format - Beispiele für Referenzen im Bibtex-Format: http://verbosus.com/bibtex-style-examples.html?lang=de). Diese Quellen sollten für euch bei zB. der Implementierung einer Methode, der Wahl von Parametern, etc. helfen. Können aber auch ein ähnliches Problem behandeln und motivieren, warum ihr euch für gewisse Methodik entschieden habt.}
 %%------------------------------------------------------
-\bibliographystyle{plain}
 \nocite{*}
-\bibliography{edbv_lit}
+\bibliographystyle{plain}
+\bibliography{C:/Users/thors/Documents/GitHub/EDBV/edbv_lit}{}
 %%Bei verwendung von Latex schreibt ihr eure Referenzen in ein eigenes bib-File (siehe hier Beispiel in edbv_lit.bib). Weitere Information zum Einbinden von BibTex gibt es hier: http://www.bibtex.org/Using/de/
 %%------------------------------------------------------
 

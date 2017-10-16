@@ -1,8 +1,29 @@
 \begin{thebibliography}{1}
 
-\bibitem{lowe2004}
-David~G Lowe.
-\newblock Distinctive image features from scale-invariant keypoints.
-\newblock {\em International journal of computer vision}, 60(2):91--110, 2004.
+\bibitem{b05}
+PhD DAVID G.~STORK, PhD; ELAD YOM-TOV.
+\newblock {\em Distinctive image features from scale-invariant keypoints}.
+\newblock Wiley-Interscience, 2004.
+
+\bibitem{b02}
+Karl Doehlemann.
+\newblock {\em Geometrische Transformationen}.
+\newblock Forgotten Books, 2017.
+
+\bibitem{b01}
+Bernd Jähne.
+\newblock {\em Digitale Bildverarbeitung}.
+\newblock Springer, 2002.
+
+\bibitem{b03}
+Jim Sizemore.
+\newblock {\em MATLAB dummies}.
+\newblock Wiley-VCH, 2016.
+
+\bibitem{b04}
+Chris Solomon.
+\newblock {\em Fundamentals of Digital Image Processing: A Practical Approach
+  with Examples in Matlab}.
+\newblock Springer, 2004.
 
 \end{thebibliography}
