@@ -37,15 +37,12 @@ Aleksandar Marinkovic (01634028)\\
 \section{Ziel}
 \textit{Der Gewinner einer Runde wird erkannt(der Stich) und die Punkte werden dem Gewinner zugerechnet. Am Ende wird der Gewinner gekührt.}
 \section{Eingabe}
-Erwarteter Input (Datentyp, Eigenschaften, eventuell zusätzliche Parameter)\\
 \textit{Der Benutzer muss nur ein Farbbild, in einem gängigen Format(.PNG/.JPG/.JPEG), der Karten, des aktuellen Spielzugs, bereitstellen.}
 \section{Ausgabe}
 \textit{In der Konsole wird ein Zwischenstand nach jeder Runde ausgegeben, am Ende wird der Gewinner ausgegeben und der Endstand.}
 \section{Voraussetzungen und Bedingungen}
-Voraussetzungen für Eingabe definieren, anhand dieser werden Datensätze erstellt\\
 \textit{Ein Farbbild der Karten. Der Hintergrund sollte möglichst Einfarbig sein (nicht weiß, texturarm). Die Kamera soll sich in einem Winkel von 45 bis 135 Grad befinden. Die Karten müssen mit einem dünnen schwarzen Rand preperiert sein.}
 \section{Methodik}
-Methodik- Pipeline
 \begin{enumerate}
 	\item Geometrische Transformation: Um das Eingabebild vorzubereiten wird aus dem, bis zu 45 Grad schrägen Bild, ein Bild aus der Vogelperspektive (90 Grad) transformiert
 	\item Kanten-Filter: Um die einzelnen Spielkarten zu trennen wird eine Kantendetektion durchgeführt
