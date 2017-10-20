@@ -35,13 +35,11 @@ Aleksandar Marinkovic (01634028)\\
 %%------------------------------------------------------
 
 \section{Ziel}
-Ziel des Projekts\\
 \textit{Der Gewinner einer Runde wird erkannt(der Stich) und die Punkte werden dem Gewinner zugerechnet. Am Ende wird der Gewinner gekührt.}
 \section{Eingabe}
-Erwarteter Input (.PNG/.JPG/.JPEG, Farbbild der Karten)\\
-\textit{Der Benutzer muss nur ein Farbbild der Karten (aufgereiht) bereitstellen.}
+Erwarteter Input (Datentyp, Eigenschaften, eventuell zusätzliche Parameter)\\
+\textit{Der Benutzer muss nur ein Farbbild, in einem gängigen Format(.PNG/.JPG/.JPEG), der Karten, des aktuellen Spielzugs, bereitstellen.}
 \section{Ausgabe}
-textuell:\\
 \textit{In der Konsole wird ein Zwischenstand nach jeder Runde ausgegeben, am Ende wird der Gewinner ausgegeben und der Endstand.}
 \section{Voraussetzungen und Bedingungen}
 Voraussetzungen für Eingabe definieren, anhand dieser werden Datensätze erstellt\\
@@ -49,21 +47,27 @@ Voraussetzungen für Eingabe definieren, anhand dieser werden Datensätze erstel
 \section{Methodik}
 Methodik- Pipeline
 \begin{enumerate}
-	\item Geometrische Transformation
-	\item Kanten-Filter
-	\item Template-Matching
+	\item Geometrische Transformation: Um das Eingabebild vorzubereiten wird aus dem, bis zu 45 Grad schrägen Bild, ein Bild aus der Vogelperspektive (90 Grad) transformiert
+	\item Kanten-Filter: Um die einzelnen Spielkarten zu trennen wird eine Kantendetektion durchgeführt
+	\item Template-Matching: Um die Spielkarte zu identifizieren wird ein Pattern-Matching durchgeführt
 \end{enumerate}
 \section{Evaluierung}
 \begin{itemize}
-	\item Um das Eingabebild vorzubereiten wird aus dem, bis zu 45 Grad schrägen Bild, ein Bild aus der Vogelperspektive (90 Grad) transformiert
-	\item Um die einzelnen Spielkarten zu trennen wird eine Kantendetektion durchgeführt
-	\item Um die Spielkarte zu identifizieren wird ein Pattern-Matching durchgeführt
+	\item Wird das Bild richtig transformiert, oder werden Buchstaben/Symbole verzerrt?
+	\item Werden beide Karten erkannt?
+	\item Wird die Karte richtig identifiziert?
 \end{itemize}
 \section{Datenbeispiel}
 \begin{figure}[h!]
  \centering
  \includegraphics[width=0.4\textwidth]{datenbeispiel.jpg}
- \caption{Datenbeispiel: Kreuz-Bube sticht Herz-König}
+ \caption{Kreuz-Bube sticht Herz-König, 6 Punkte gewonnen}
+ \label{fig:img}
+\end{figure}
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=0.4\textwidth]{datenbeispiel2.jpg}
+ \caption{Kreuz-Bube sticht Pik-10, 12 Punkte gewonnen}
  \label{fig:img}
 \end{figure}
 \newpage
@@ -75,14 +79,14 @@ Methodik- Pipeline
 		Meilenstein & abgeschlossen am & Arbeitsaufwand in h\\
 		\hline
 		Vorarbeit Projekt & 20.10.2017 & 20\\
-		Prototyp erstellen& ... & 40\\
-		Geometrische Transformation& ... & 105 \\
-		GT-Test & ... & 10 \\
-		Kantendetektion& ... & 67 \\
-		KD-Test & ... & 5 \\
-		Pattern-Matching & ... & 43\\
-		PM-Test & ... & 5 \\
-		Unit-Test & ... & 5 \\
+		Prototyp erstellen& 10.11.2017 & 40\\
+		Geometrische Transformation& 22.12.2017 & 105 \\
+		Kantendetektion& 18.12.2017 & 67 \\
+		Pattern-Matching & 18.12.2017 & 43\\
+		GT-Test & 31.12.2017 & 10 \\
+		KD-Test & 27.12.2017 & 5 \\
+		PM-Test & 27.12.2017 & 5 \\
+		Unit-Test & 05.01.2017 & 5 \\
 		\hline
 		\end{tabular}
 \end{table}
