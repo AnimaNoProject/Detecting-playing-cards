@@ -1,9 +1,15 @@
 % Prototype here please %
 
 input = imread('input/img01.jpg');
-tform = affine2d([1 0 0; .5 1 0; 0 0 1]); % transformations matrix?
-tinput = imwarp(input, tform);
+input = rgb2gray(input);
+BW = imbinarize(input);
 
-imshow(input);
 figure();
-imshow(tinput);
+
+[B,L] = bwboundaries(BW,'noholes');
+imshow(label2rgb(L, @jet, [.5 .5 .5]))
+hold on
+for k = 1:length(B)
+   boundary = B{k};
+   plot(boundary(:,2), boundary(:,1), 'w', 'LineWidth', 2)
+end
