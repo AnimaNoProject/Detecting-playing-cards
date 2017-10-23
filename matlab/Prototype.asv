@@ -2,7 +2,7 @@
 
 input = imread('input/img01.jpg');
 inputgray = rgb2gray(input);
-BW = imbinarize(inputgray,'adaptive','ForegroundPolarity','dark','Sensitivity',0.4);
+BW = imbinarize(input,'adaptive','ForegroundPolarity','dark','Sensitivity',0.4);
 imshow(BW);
 
 figure();
