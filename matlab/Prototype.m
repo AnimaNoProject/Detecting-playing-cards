@@ -14,16 +14,25 @@ tform = affine2d([1 0 0; .5 1 0; 0 0 1]); % transformations matrix?
 
 xsobelfilter = [-1 0 1; -2 0 2; -1 0 1];
 ysobelfilter = [-1 -2 -1; 0 0 0; 1 2 1] ;
-
+%input = rgb2gray(input);
+%input = edge(input, 'Canny');
+xsobelfilter2 = imfilter(double(input), xsobelfilter);
+ysobelfilter2 = imfilter(double(input), ysobelfilter);
+phi = rad2deg(atan2(xsobelfilter2, ysobelfilter2));
 %1.Canny Algorithmus
 sigma = 0.22;
 inputgrey = double(rgb2gray(input));
 inputcanny = edge(inputgrey, 'Canny', sigma);
 figure();
 imshow(inputcanny);
+g = double(input) .* inputcanny;
+figure();
+imshow(g);
 %2. 
 %binär bild erstellen
-
+i = 1;
+se = strel('square',5);
+dilatedI = imdilate(inputcanny,se);
 
 %Kmedian = medfilt2(tinput(1:2));
 %figure();
