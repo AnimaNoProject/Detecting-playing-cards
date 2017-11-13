@@ -80,25 +80,52 @@ card_two_gray = rgb2gray(card_two);
 % plot(C(1:5,1), C(1:5,2), 'r*');
 % hold off;
 
-% figure();
-% corners = detectHarrisFeatures(card_one_gray, 'MinQuality', 0.05);
-% imshow(card_one_gray);
-% hold on;
+figure();
+corners = detectHarrisFeatures(card_one_gray, 'MinQuality', 0.05);
+imshow(card_one_gray);
+hold on;
+best_corners = corners.selectStrongest(5);
+% 
+% p5x = best_corners.Location(2,1);
+% p5y = best_corners.Location(2,2);
+% p4x = best_corners.Location(4,1);
+% p4y = best_corners.Location(4,2);
+% 
+% template_longside = sqrt((p5x - p4x)^2 + (p5y - p4y)^2);
+
+longside = 1687;
+v = 1:5;
+combos = nchoosek(v, 2);
+for s=1:size(combos,1)
+    a = combos(s,1);
+    b = combos(s,2);
+    p1x = best_corners.Location(a,1);
+    p1y = best_corners.Location(a,2);
+    p2x = best_corners.Location(b,1);
+    p2y = best_corners.Location(b,2);
+    
+    distance = sqrt((p1x - p2x)^2 + (p1y - p2y)^2)
+    if (distance > longside - 100 && distance < longside + 100)
+        line([p1x,p2x],[p1y,p2y],'LineWidth', 5, 'Color', 'red');
+    end
+end;
+
+hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % SURF Feature Matching & Geometric Transformation 1st Card
-original_one = rgb2gray(imread('input/pik_koenig.jpg'));
-card_one_transformed = surf_transformation(original_one, card_one_gray);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% SURF Feature Matching & Geometric Transformation 2nd Card
-original_two = rgb2gray(imread('input/pik_10.jpg'));
-card_two_transformed = surf_transformation(original_two, card_two_gray);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Show both cards separated and transformed
-imshowpair(card_one_transformed, card_two_transformed, 'Montage');
+% original_one = rgb2gray(imread('input/pik_koenig.jpg'));
+% card_one_transformed = surf_transformation(original_one, card_one_gray);
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% % SURF Feature Matching & Geometric Transformation 2nd Card
+% original_two = rgb2gray(imread('input/pik_10.jpg'));
+% card_two_transformed = surf_transformation(original_two, card_two_gray);
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% % Show both cards separated and transformed
+% imshowpair(card_one_transformed, card_two_transformed, 'Montage');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
