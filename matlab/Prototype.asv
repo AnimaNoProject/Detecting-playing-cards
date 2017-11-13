@@ -86,15 +86,45 @@ card_two_gray = rgb2gray(card_two);
 % hold on;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% SURF Feature Matching & Geometric Transformation 1st Card
+% SIFT Feature Matching & Geometric Transformation 1st Card
 original_one = rgb2gray(imread('input/pik_koenig.jpg'));
-card_one_transformed = surf_transformation(original_one, card_one_gray);
+
+% SU
+ptsOriginal  = detectSURFFeatures(original_one);
+ptsDistorted = detectSURFFeatures(card_one_gray);
+
+
+[featuresOriginal,validPtsOriginal] = extractFeatures(original_one,ptsOriginal);
+[featuresDistorted,validPtsDistorted] = extractFeatures(card_one_gray,ptsDistorted);
+
+index_pairs = matchFeatures(featuresOriginal,featuresDistorted);
+matchedPtsOriginal  = validPtsOriginal(index_pairs(:,1));
+matchedPtsDistorted = validPtsDistorted(index_pairs(:,2));
+[tform,inlierPtsDistorted,inlierPtsOriginal] = estimateGeometricTransform(matchedPtsDistorted,matchedPtsOriginal,'similarity');
+outputView = imref2d(size(original_one));
+
+card_one_transformed = imwarp(card_one_gray,tform,'OutputView',outputView);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% SURF Feature Matching & Geometric Transformation 2nd Card
-original_two = rgb2gray(imread('input/pik_10.jpg'));
-card_two_transformed = surf_transformation(original_two, card_two_gray);
 
+
+% SIFT Feature Matching & Geometric Transformation 2nd Card
+original_two = rgb2gray(imread('input/pik_10.jpg'));
+
+ptsOriginal  = detectSURFFeatures(original_two);
+ptsDistorted = detectSURFFeatures(card_two_gray);
+
+
+[featuresOriginal,validPtsOriginal] = extractFeatures(original_two,ptsOriginal);
+[featuresDistorted,validPtsDistorted] = extractFeatures(card_two_gray,ptsDistorted);
+
+index_pairs = matchFeatures(featuresOriginal,featuresDistorted);
+matchedPtsOriginal  = validPtsOriginal(index_pairs(:,1));
+matchedPtsDistorted = validPtsDistorted(index_pairs(:,2));
+[tform,inlierPtsDistorted,inlierPtsOriginal] = estimateGeometricTransform(matchedPtsDistorted,matchedPtsOriginal,'similarity');
+outputView = imref2d(size(original_two));
+
+card_two_transformed = imwarp(card_two_gray,tform,'OutputView',outputView);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Show both cards separated and transformed
