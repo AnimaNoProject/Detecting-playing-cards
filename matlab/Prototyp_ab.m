@@ -1,5 +1,5 @@
 % lese Urpsungsbild ein IMG_6660.jpg
-input = imread('input/test.jpg');
+input = imread('input/test2.jpg');
 % Figure 1: Ursprungsbild
 %figure, imshow(input), title('Inputbild');
 
@@ -15,46 +15,75 @@ hold on
 
 figure();
 
-for k = 1:4 %// Loop through each object and plot it in white. This is where you can create individual figures for each object.  CC.NumObjects
-
-    PixId = CC.PixelIdxList{k}; %// Just simpler to understand
-
-    if size(PixId,1) == 1 %// If only one row, don't consider.        
-        continue
-    else
-    BW2(PixId) = 255;
-    %figure(k) %// Uncomment this if you want individual figures.
-    imshow(BW2);
-    %pause(.5) %// Only for display purposes.
-    end
-end
+% for k = 1:4 %// Loop through each object and plot it in white. This is where you can create individual figures for each object.  CC.NumObjects
+% 
+%     PixId = CC.PixelIdxList{k}; %// Just simpler to understand
+% 
+%     if size(PixId,1) == 1 %// If only one row, don't consider.        
+%         continue
+%     else
+%     BW2(PixId) = 255;
+%     %figure(k) %// Uncomment this if you want individual figures.
+%     imshow(BW2);
+%     pause(.5) %// Only for display purposes.
+%     end
+% end
 
 
 % hole groesste Zusammenhangskomponente
 numPixels = cellfun(@numel,CC.PixelIdxList);
-%sortedPixels = sort(numPixels,'descend');
-[biggest, idx] = max(numPixels);
+[biggest, idx] = sort(numPixels,'descend');
+
+
+%[biggest, idx] = max(numPixels)
+
+
 
 % erstelle Schwarzbild mit der Groeße des Inputbilds
 obereKarte = zeros(size(binaryInput));
 % setze den Bereich der maximalen Zusammenhangskomponente auf weiß
-obereKarte(CC.PixelIdxList{idx}) = 1;
-figure, imshow(obereKarte), title('Obere Karte');
+obereKarte(CC.PixelIdxList{idx(1)}) = 1;
+%figure, imshow(obereKarte), title('Obere Karte');
 
+filled = imfill(obereKarte, 'holes');
 % hier müssen wir uns noch etwas für den Index überlegen, da 1 hier nur
 % geschätzt ist (könnte natürlich auch was anderes sein). Eventuell
 % sortieren wir die Liste, dann ist das zweite Element immer die untere
 % Karte und das erste Lement die obere Karte
 untereKarte = zeros(size(binaryInput));
-untereKarte(CC.PixelIdxList{1}) = 1;
-figure, imshow(untereKarte), title('Untere Karte');
+untereKarte(CC.PixelIdxList{idx(2)}) = 1;
+%figure, imshow(untereKarte), title('Untere Karte');
+
+filled2 = imfill(untereKarte, 'holes');
+
+if(sum(filled) > sum(filled2))
+    obereKarte = filled;
+    untereKarte = filled2;
+else
+    obereKarte = filled2;
+    untereKarte = filled;
+end;
+
+figure, imshow(obereKarte), title('OBEN');
+figure, imshow(untereKarte), title('UNTEN');
+
+input2 = input;
+
+input(:,:,1) = double(input(:,:,1)) .* obereKarte(:,:);
+input(:,:,2) = double(input(:,:,2)) .* obereKarte(:,:);
+input(:,:,3) = double(input(:,:,3)) .* obereKarte(:,:);
 
 
 
+figure, imshow(input), title('Oben farbe');
 
+input2(:,:,1) = double(input2(:,:,1)) .* untereKarte(:,:);
+input2(:,:,2) = double(input2(:,:,2)) .* untereKarte(:,:);
+input2(:,:,3) = double(input2(:,:,3)) .* untereKarte(:,:);
 
+figure, imshow(input2), title('Unten farbe');
 
-
+% figure, imshow(edges(rgb2gray(double(input)))), title('EDGES OBEN');
 
 
 
