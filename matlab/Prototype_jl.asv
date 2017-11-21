@@ -145,11 +145,9 @@ plot(nearestcorner(2),nearestcorner(1), '*');
 hold off;
 % determine edge for rotating the picture
 edgetoratewith      = (nearestcorner - firstcorner);
-normedgerotatewith  = [edgetoratewith / norm(edgetoratewith) 1];
-normedgeinxdirection = [1 0 1];
-%determine angle rotate around
-angletorotate = atan2d(cross( normedgerotatewith,normedgeinxdirection),dot(normedgerotatewith, normedgeinxdirection));
-asdf= 1;
+normedgerotatewith  = edgetoratewith / norm(edgetoratewith);
+%determine angle
+angle = 
 
 % input = imread('input/IMG_6660.jpg');
 % figure();
