@@ -128,7 +128,7 @@ plot(secondcorner(2),secondcorner(1), '*');
 plot(thirdcorner(2),thirdcorner(1), '*');
 plot(fourthcorner(2),fourthcorner(1), '*');
 hold off;
-
+%%%%%%%%%%%%%%%%rotate first card%%%%%%%%%%%%%%%%%
 %get nearest edge to firstcorner
 length1 = norm(firstcorner - secondcorner);
 length2 = norm(firstcorner - thirdcorner);
@@ -145,12 +145,16 @@ plot(nearestcorner(2),nearestcorner(1), '*');
 hold off;
 % determine edge for rotating the picture
 edgetoratewith      = (nearestcorner - firstcorner);
-normedgerotatewith  = [edgetoratewith / norm(edgetoratewith) 1];
-normedgeinxdirection = [1 0 1];
+normedgerotatewith  = edgetoratewith / norm(edgetoratewith);
+normedgeinxdirection = [1 0];
 %determine angle rotate around
-angletorotate = atan2d(cross( normedgerotatewith,normedgeinxdirection),dot(normedgerotatewith, normedgeinxdirection));
-asdf= 1;
+angletorotate = rad2deg(acos(dot(normedgerotatewith, normedgeinxdirection)));
+rotated_card_one_gray = imrotate(card_one_gray, 90-angletorotate);
+figure();
+imshow(rotated_card_one_gray);
+%%%%%%%%%%%%rotate the second card%%%%%%%%%%%%%%%%%%%%
 
+%determine edge for rotating the picture 
 % input = imread('input/IMG_6660.jpg');
 % figure();
 % imshow(input);
@@ -206,5 +210,5 @@ asdf= 1;
 % imshow(obenrechts);
 % figure;
 % 
-% clc;
-% clear;
+clc;
+clear;

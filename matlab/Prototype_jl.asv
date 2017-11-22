@@ -146,9 +146,13 @@ hold off;
 % determine edge for rotating the picture
 edgetoratewith      = (nearestcorner - firstcorner);
 normedgerotatewith  = edgetoratewith / norm(edgetoratewith);
-%determine angle
-angle = 
-
+normedgeinxdirection = [1 0];
+%determine angle rotate around
+angletorotate = rad2deg(acos(dot(normedgerotatewith, normedgeinxdirection)));
+rotated_card_one_gray = imrotate(card_one_gray, 90-angletorotate);
+figure();
+imshow(rotated_card_one_gray);
+asdf= 1;
 % input = imread('input/IMG_6660.jpg');
 % figure();
 % imshow(input);
@@ -204,5 +208,5 @@ angle =
 % imshow(obenrechts);
 % figure;
 % 
-% clc;
-% clear;
+clc;
+clear;
