@@ -1,0 +1,41 @@
+function [card_one, card_two] = splitCards(input_picture)
+%SPLITCARDS Summary of this function goes here
+%   Detailed explanation goes here
+
+    input_gray = rgb2gray(input_picture);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Binarized Image
+    binaryInput = imbinarize(input_gray, 0.47);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % connected components
+    CC = bwconncomp(binaryInput);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+    % Sort biggest Components
+    numPixels = cellfun(@numel,CC.PixelIdxList);
+    [biggest, idx] = sort(numPixels,'descend');
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %Fill the holes in the 2 components
+    card_one = zeros(size(binaryInput));
+    card_one(CC.PixelIdxList{idx(1)}) = 1;
+    filled_first = imfill(card_one, 'holes');
+
+    card_two = zeros(size(binaryInput));
+    card_two(CC.PixelIdxList{idx(2)}) = 1;
+    filled_second = imfill(card_two, 'holes');
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %Decide which card is bigger by comparing the pixels
+    if(sum(filled_first) > sum(filled_second))
+        card_one = filled_first;
+        card_two = filled_second;
+    else
+        card_one = filled_second;
+        card_two = filled_first;
+    end;
+end
+
