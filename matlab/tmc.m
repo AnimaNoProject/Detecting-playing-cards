@@ -1,42 +1,35 @@
-function [ result ] = tmc( image1, image2 )
+function maxcorr = tmc( target, template)
 %TMC Summary of this function goes here
 %   Detailed explanation goes here
 
-if size(image1,3)==3
-    image1=rgb2gray(image1);
-end
-if size(image2,3)==3
-    image2=rgb2gray(image2);
-end
+    A = target(:,:,1);
+    B = template(:,:,1);
 
-% check which one is target and which one is templete
+    corr_map = zeros([size(A,1),size(A,2)]);
 
-if size(image1)>size(image2)
-    Target=image1;
-    Template=image2;
-else
-    Target=image2;
-    Template=image1;
-end
-% read both images sizes
-[r1,c1]=size(Target);
-[r2,c2]=size(Template);
+    for i = 1:size(A,1)-size(B,1)
+        for j = 1:size(A,2)-size(B,2)
+            %Construct the correlation map
+            corr_map(i,j) = corr2(A(i:i+size(B,1)-1,j:j+size(B,2)-1),B);
+        end
+    end
 
-% mean of the template
-image22=Template-mean(mean(Template));
+    %Find the maximum value
+    maxpt = max(corr_map(:));
+    maxcorr= maxpt;
+    [x,y]=find(corr_map==maxpt);
 
-%corrolate both images
-corrMat=[];
-for i=1:(r1-r2+1)
-    for j=1:(c1-c2+1)
-        Nimage=Target(i:i+r2-1,j:j+c2-1);
-        Nimage=Nimage-mean(mean(Nimage));  % mean of image part under mask
-        corr=sum(sum(Nimage.*image22));
-        corrMat(i,j)=corr;
-    end 
-end
+    %Display the image from the template
+    figure,imagesc(template);title('Template Image');colormap(gray);axis image
 
-% plot box on the target image
-result=plotbox(Target,Template,corrMat);
+    grayA = rgb2gray(target);
+    Res   = A;
+    Res(:,:,1)=grayA;
+    Res(:,:,2)=grayA;
+    Res(:,:,3)=grayA;
+
+    Res(x:x+size(B,1)-1,y:y+size(B,2)-1,:)=target(x:x+size(B,1)-1,y:y+size(B,2)-1,:);
+
+    figure,imagesc(Res);title('Matched');
 end
 
