@@ -2,21 +2,19 @@ function [card_one, card_two] = splitCards(input_picture)
 %SPLITCARDS Summary of this function goes here
 %   Detailed explanation goes here
 
-       input_gray = rgb2gray(input_picture);
-%        input_gray = toGray(input_picture);
+    input_gray = rgb2gray(input_picture);
+    own_gray = toGray(input_picture);
     
-%     imshowpair(input_gray2, input_gray, 'Montage');
+    imshowpair(input_gray, own_gray, 'Montage');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-      threshHold = thresholdotsu(histcounts(input_gray(:), 256));
-% 
+    threshHold = thresholdotsu(histo
+
     % Binarized Image
-%     binaryInput2 = imbinarize(input_gray, 0.47);
-    
-     binaryInput = (input_gray >= threshHold);
+    binaryInput = imbinarize(input_gray, 0.47);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-%     imshowpair(binaryInput, binaryInput2, 'Montage');
+
+    imshowpair(binaryInput, binary, 'Montage');
     
     % connected components
     CC = bwconncomp(binaryInput);
