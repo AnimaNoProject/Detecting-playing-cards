@@ -5,7 +5,7 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/test_img.jpg');
+input = imread('input/test_img_per.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
