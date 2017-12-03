@@ -5,7 +5,7 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/test_img_pers.jpg');
+input = imread('input/test_img_pers2.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -75,6 +75,10 @@ card_two_gray = rgb2gray(card_two);
 %%%%%%%%find corner%%%%%%%%%%%%%
 %get bounding box of binary images
 boundingbox     = regionprops(card_first, 'BoundingBox');
+%figure;
+%imshow(card_one)
+%hold on
+%rectangle('Position', [32.5 247.5 228 263],	'EdgeColor','r', 'LineWidth', 2)
 boxproperties   = boundingbox.BoundingBox;
 left            = round(boxproperties(1));
 top             = round(boxproperties(2));
@@ -131,11 +135,106 @@ hold off;
 
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
+% Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
 r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
 c = [firstcorner(2) secondcorner(2) thirdcorner(2) fourthcorner(2)]';
 % Kartenverhältnis 5:8
+% base = [0 0; 0 8; 5 0; 5 8];
+% 1. Möglichkeit
 base = [5 0; 0 0; 5 8; 0 8];
-tf = cp2tform([c r], base*2000,'projective');
-[xf1, XData, YData] = imtransform(card_one_gray,tf);
+tform = fitgeotrans([c r], base*100,'projective');
+card_one_corrected = imwarp(card_one,tform);
 figure;
-imshow(xf1);
+imshow(card_one_corrected);
+
+% 2. Möglichkeit
+base = [0 0; 0 8; 5 0; 5 8];
+tform = fitgeotrans([c r], base*100,'projective');
+card_one_corrected = imwarp(card_one,tform);
+figure;
+imshow(card_one_corrected);
+
+%{
+%%%%%%%%find corner 2. Karte%%%%%%%%%%%%%
+%get bounding box of binary images
+boundingbox     = regionprops(card_second, 'BoundingBox');
+%figure;
+%imshow(card_two)
+%hold on
+%rectangle('Position', [[70.5 53.5 234 200]], 'EdgeColor','r', 'LineWidth', 2)
+boxproperties   = boundingbox.BoundingBox;
+left            = round(boxproperties(1));
+top             = round(boxproperties(2));
+width           = boxproperties(3);
+height          = boxproperties(4);
+right           = round(boxproperties(1) + width) - 1;
+bottom          = round(boxproperties(2) + height) - 1;
+firstcorner     = -1;
+secondcorner    = -1;
+thirdcorner     = -1;
+fourthcorner    = -1;
+%get first corner from top left to top right
+for x = left : right
+    value = card_second(top, x);
+    if(value == 1)
+        firstcorner = [top, x];
+        break;
+    end
+end
+%get second corner from top left to bottom left
+for y = top : bottom
+    value = card_second(y, left);
+    if(value == 1)
+        secondcorner = [y, left];
+        break;
+    end
+end
+%get third corner top right to bottom right
+for y = top : bottom
+    value = card_second(y, right);
+    if(value == 1)
+        thirdcorner = [y, right];
+        break;
+    end
+end
+%get fourth corner from bottom left to bottom right
+for x = left : right
+    value = card_second(bottom, x);
+    if(value == 1)
+        fourthcorner = [bottom, x];
+        break;
+    end
+end
+corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
+
+figure();
+imshow(card_two_gray);
+hold on;
+plot(firstcorner(2),firstcorner(1), '*');
+plot(secondcorner(2),secondcorner(1), '*');
+plot(thirdcorner(2),thirdcorner(1), '*');
+plot(fourthcorner(2),fourthcorner(1), '*');
+hold off;
+
+%%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
+% Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
+r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
+c = [firstcorner(2) secondcorner(2) thirdcorner(2) fourthcorner(2)]';
+% Verhältnis zwischen der linken und rechten Seite
+links = [firstcorner; secondcorner];
+rechts = [thirdcorner; fourthcorner];
+d_l = pdist(links,'euclidean');
+d_r = pdist(rechts,'euclidean');
+
+% Kartenverhältnis 5:8
+base = [0 0; 0 8; 5 0; 5 8*(d_r/d_l)];
+tform = fitgeotrans([c r], base*100,'projective');
+%I2 = imcrop(card_one, [secondcorner(2)-20 firstcorner(1)-20 320 350]);
+%figure;
+%imshow(I2);
+card_two_corrected = imwarp(card_two,tform);
+figure;
+imshow(card_two_corrected);
+
+%}
+
