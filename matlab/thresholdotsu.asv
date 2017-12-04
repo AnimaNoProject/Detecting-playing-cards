@@ -1,0 +1,58 @@
+function [ level ] = thresholdotsu( histogramCounts )
+%THRESHOLDOTSU Threshhold Otsu
+%   Detailed explanation goes here
+
+
+%     total = sum(histogramCounts);  % Total ammount of pixels
+% 
+%     sumB = 0;                      %  
+%     weightedBackground = 0;
+%     maximum = 0.0;
+%    
+%     sum1 = dot( (0:255), histogramCounts); 
+%     
+%     for gray=1:256
+%         
+%         weightedBackground = weightedBackground + histogramCounts(gray);
+%         
+%         wF = total - weightedBackground;
+%         
+%         if (weightedBackground == 0 || wF == 0)
+%             continue;
+%         end
+%         sumB = sumB +  (gray-1) * histogramCounts(gray);
+%         mF = (sum1 - sumB) / wF;
+%         between = weightedBackground * wF * ((sumB / weightedBackground) - mF) * ((sumB / weightedBackground) - mF);
+%         if ( between >= maximum )
+%             level = gray;
+%             maximum = between;
+%         end
+%     end
+    pixels = sum(histogramCounts);
+    
+    sumBG = 0;
+    wBG = 0;
+    wFG = 0;
+    
+    varMax = 0;
+    threshold = 0;
+    
+    for gray=1:256
+        wBG = wBG + histogramCounts(gray-1);
+        wFG = pixels - wBG;
+        
+        if (wBG == 0 ||  wFG == 0)
+            continue;
+        end
+        
+        sumBG = (gray-1) * histogramCounts(gray);
+        
+        meanBG = sumBG / wBG;
+        meanFG = (pixels - sumBG) / wFG;
+        
+        varBetween = wBG * ((meanBG - meanFG)^2);
+        
+        if (varBetween > varMax)
+    end
+end
+

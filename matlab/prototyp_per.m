@@ -5,7 +5,7 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/test_img_pers2.jpg');
+input = imread('input/test_img_pers3.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -148,13 +148,13 @@ figure;
 imshow(card_one_corrected);
 
 % 2. Möglichkeit
-base = [0 0; 0 8; 5 0; 5 8];
-tform = fitgeotrans([c r], base*100,'projective');
-card_one_corrected = imwarp(card_one,tform);
-figure;
-imshow(card_one_corrected);
+%base = [0 0; 0 8; 5 0; 5 8];
+%tform = fitgeotrans([c r], base*100,'projective');
+%card_one_corrected = imwarp(card_one,tform);
+%figure;
+%imshow(card_one_corrected);
 
-%{
+%%{
 %%%%%%%%find corner 2. Karte%%%%%%%%%%%%%
 %get bounding box of binary images
 boundingbox     = regionprops(card_second, 'BoundingBox');
@@ -236,5 +236,5 @@ card_two_corrected = imwarp(card_two,tform);
 figure;
 imshow(card_two_corrected);
 
-%}
+%%}
 
