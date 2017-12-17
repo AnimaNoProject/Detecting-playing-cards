@@ -136,25 +136,26 @@ hold off;
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
 % Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
-r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
-c = [firstcorner(2) secondcorner(2) thirdcorner(2) fourthcorner(2)]';
+%r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
+%c = [firstcorner(2) secondcorner(2) thirdcorner(2) fourthcorner(2)]';
+r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
+c = [corners(1,2) corners(2,2) corners(3,2) corners(4,2)]';
 % Kartenverhältnis 5:8
 % base = [0 0; 0 8; 5 0; 5 8];
 % 1. Möglichkeit
 base = [5 0; 0 0; 5 8; 0 8];
-tform = fitgeotrans([c r], base*100,'projective');
-card_one_corrected = imwarp(card_one,tform);
+%tform = fitgeotrans([c r], base*100,'projective');
+
+%%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
+movPts = [c r];
+fixPts = base * 200;
+tform = getTform(movPts, fixPts);
+
+card_one_corrected = imwarp(card_one, tform);
 figure;
 imshow(card_one_corrected);
 
-% 2. Möglichkeit
-%base = [0 0; 0 8; 5 0; 5 8];
-%tform = fitgeotrans([c r], base*100,'projective');
-%card_one_corrected = imwarp(card_one,tform);
-%figure;
-%imshow(card_one_corrected);
-
-%%{
+%{
 %%%%%%%%find corner 2. Karte%%%%%%%%%%%%%
 %get bounding box of binary images
 boundingbox     = regionprops(card_second, 'BoundingBox');
@@ -166,7 +167,7 @@ boxproperties   = boundingbox.BoundingBox;
 left            = round(boxproperties(1));
 top             = round(boxproperties(2));
 width           = boxproperties(3);
-height          = boxproperties(4);
+eight          = boxproperties(4);
 right           = round(boxproperties(1) + width) - 1;
 bottom          = round(boxproperties(2) + height) - 1;
 firstcorner     = -1;
@@ -218,8 +219,8 @@ hold off;
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
 % Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
-r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
-c = [firstcorner(2) secondcorner(2) thirdcorner(2) fourthcorner(2)]';
+r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
+c = [corners(1,2) corners(2,2) corners(3,2) corners(4,2)]';
 % Verhältnis zwischen der linken und rechten Seite
 links = [firstcorner; secondcorner];
 rechts = [thirdcorner; fourthcorner];
@@ -236,5 +237,5 @@ card_two_corrected = imwarp(card_two,tform);
 figure;
 imshow(card_two_corrected);
 
-%%}
+%}
 
