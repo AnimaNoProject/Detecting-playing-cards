@@ -5,7 +5,7 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/test_img_pers3.jpg');
+input = imread('input/test_img_pers2a.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -134,6 +134,11 @@ plot(fourthcorner(2),fourthcorner(1), '*');
 hold off;
 
 
+links = [firstcorner; secondcorner];
+rechts = [firstcorner; thirdcorner];
+d_l = pdist(links,'euclidean');
+d_r = pdist(rechts,'euclidean');
+
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
 % Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
 %r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
@@ -141,9 +146,11 @@ hold off;
 r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
 c = [corners(1,2) corners(2,2) corners(3,2) corners(4,2)]';
 % Kartenverhältnis 5:8
-% base = [0 0; 0 8; 5 0; 5 8];
-% 1. Möglichkeit
-base = [5 0; 0 0; 5 8; 0 8];
+if(d_l < d_r)
+    base = [5 0; 0 0; 5 8; 0 8];
+else 
+    base = [0 0; 0 8; 5 0; 5 8];
+end
 %tform = fitgeotrans([c r], base*100,'projective');
 
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
@@ -151,7 +158,10 @@ movPts = [c r];
 fixPts = base * 200;
 tform = getTform(movPts, fixPts);
 
-card_one_corrected = imwarp(card_one, tform);
+card_one_corrected = imtransform(card_one, tform);
+%resampler=makeresampler('linear','fill');
+%card_one_corrected = tformarray(card_one, tform, resampler, [2 1], [2 1], ...
+%               tsize_b, tmap_b, args.fill_values);
 figure;
 imshow(card_one_corrected);
 
@@ -216,6 +226,8 @@ plot(secondcorner(2),secondcorner(1), '*');
 plot(thirdcorner(2),thirdcorner(1), '*');
 plot(fourthcorner(2),fourthcorner(1), '*');
 hold off;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
 % Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
@@ -227,13 +239,23 @@ rechts = [thirdcorner; fourthcorner];
 d_l = pdist(links,'euclidean');
 d_r = pdist(rechts,'euclidean');
 
+strecke_12 = [firstcorner; secondcorner];
+strecke_13 = [firstcorner; thirdcorner];
+d_12 = pdist(strecke_12,'euclidean');
+d_13 = pdist(strecke_13,'euclidean');
+
+if(d_12 < d_13)
+    base = [5 0; 0 0; 5 8; 0 8];
+else 
+    base = [0 0; 0 8; 5 0; 5 8];
+end
 % Kartenverhältnis 5:8
-base = [0 0; 0 8; 5 0; 5 8*(d_r/d_l)];
-tform = fitgeotrans([c r], base*100,'projective');
-%I2 = imcrop(card_one, [secondcorner(2)-20 firstcorner(1)-20 320 350]);
-%figure;
-%imshow(I2);
-card_two_corrected = imwarp(card_two,tform);
+% base = [0 0; 0 8; 5 0; 5 8*(d_r/d_l)];
+movPts = [c r];
+fixPts = base * 200;
+tform = getTform(movPts, fixPts);
+
+card_two_corrected = imtransform(card_two, tform);
 figure;
 imshow(card_two_corrected);
 

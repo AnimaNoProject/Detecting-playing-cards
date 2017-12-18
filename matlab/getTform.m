@@ -25,7 +25,7 @@ function [tform] = getTform(movPts, fixPts)
     % Lösen des linearen Gleichungssytem
     Tinv = mldivide(normMatrix2,(Tinv * normMatrix1));
     T = inv(Tinv);
-    T = T ./ T(3,3);
+   % T = T ./ T(3,3);
     % creates a TFORM struct for an N-dimensional projective transformation
-    tform = projective2d(T);
+    tform = maketform('projective', T);
 end
