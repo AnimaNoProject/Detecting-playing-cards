@@ -27,5 +27,5 @@ function [tform] = getTform(movPts, fixPts)
     T = inv(Tinv);
     T = T ./ T(3,3);
     % creates a TFORM struct for an N-dimensional projective transformation
-    tform = projective2d(T);
+    tform = maketform('projective',T); %projective2d(T);
 end
