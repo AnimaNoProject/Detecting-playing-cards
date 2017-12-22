@@ -1,3 +1,7 @@
 perspektiv-korrektur
 https://www.youtube.com/watch?v=4ic9wt_Is28
 http://homepages.inf.ed.ac.uk/rbf/HIPR2/wksheets.htm
+https://franklinta.com/2014/09/08/computing-css-matrix3d-transforms/
+
+Matlab-Funktionen
+http://www.peterkovesi.com/matlabfns/index.html#projective
