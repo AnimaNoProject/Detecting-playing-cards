@@ -5,8 +5,8 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-%input = imread('input/test_img_pers2a.jpg');
-input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1_mod8jpg');
+input = imread('input/test_img_pers2a.jpg');
+%input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1_mod11.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -49,9 +49,11 @@ else
     card_first = filled_second;
     card_second = filled_first;
 end;
-figure;
-imshow(card_first);
-figure;
+%figure;
+%imshow(card_first);
+%figure;
+%imshow(card_second);
+%figure;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Get the RGB card from the Original image by dotmultiplying with the binary
@@ -129,8 +131,8 @@ for x = left : right
 end
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
 
-figure();
-imshow(card_one_gray);
+%%figure();
+%%imshow(card_one_gray);
 hold on;
 plot(firstcorner(2),firstcorner(1), '*');
 plot(secondcorner(2),secondcorner(1), '*');
@@ -167,13 +169,14 @@ fixPtsH = makehomogeneous(fixPts');
 tform = homography2d(movPtsH,fixPtsH);
 
 card_one_corrected = imTrans(card_one, tform);
-figure;
-imshow(card_one_corrected);
+%%figure;
+%%imshow(card_one_corrected);
 
-%{
+%
 %%%%%%%%find corner 2. Karte%%%%%%%%%%%%%
 %get bounding box of binary images
 boundingbox     = regionprops(card_second, 'BoundingBox');
+%%chull = regionprops(card_second, 'ConvexHull')
 %figure;
 %imshow(card_two)
 %hold on
@@ -182,7 +185,7 @@ boxproperties   = boundingbox.BoundingBox;
 left            = round(boxproperties(1));
 top             = round(boxproperties(2));
 width           = boxproperties(3);
-eight          = boxproperties(4);
+height          = boxproperties(4);
 right           = round(boxproperties(1) + width) - 1;
 bottom          = round(boxproperties(2) + height) - 1;
 firstcorner     = -1;
@@ -221,18 +224,95 @@ for x = left : right
         break;
     end
 end
-corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
 
-figure();
+%figure();
 imshow(card_two_gray);
 hold on;
-plot(firstcorner(2),firstcorner(1), '*');
+plot(firstcorner(2),firstcorner(1), '+');
 plot(secondcorner(2),secondcorner(1), '*');
-plot(thirdcorner(2),thirdcorner(1), '*');
-plot(fourthcorner(2),fourthcorner(1), '*');
+plot(thirdcorner(2),thirdcorner(1), 's');
+plot(fourthcorner(2),fourthcorner(1), 'o');
 hold off;
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
+
+%%%%%%%%%%%%%%% Generate a fake corner %%%%%%%%%%%%%%%%%%
+
+%%Find shortest distance between points - this is, where the card is
+%%incomplete
+
+obenzulinks = [firstcorner;secondcorner];
+linkszuunten = [secondcorner;fourthcorner];
+untenzurechts = [fourthcorner;thirdcorner];
+rechtszuoben = [thirdcorner;firstcorner];
+
+distOL = round(pdist(obenzulinks,'euclidean'));
+distLU = round(pdist(linkszuunten,'euclidean'));
+distUR = round(pdist(untenzurechts,'euclidean'));
+distRO = round(pdist(rechtszuoben,'euclidean'));
+
+distarray = [distOL,distLU,distUR,distRO];
+
+shortestpath = distOL;
+secondshortestpath = distRO;
+
+for i = 1:4
+    if(distarray(i) < shortestpath)
+        shortestpath = distarray(i);
+    end
+end
+
+TEMP = 50000;
+for i = 1:4
+    if(distarray(i) == shortestpath)
+    elseif((distarray(i) - shortestpath) < TEMP)
+        secondshortestpath = distarray(i);
+        TEMP = distarray(i) - shortestpath;
+    end
+end
+
+possibleflag = false;
+
+%
+if(secondshortestpath > (shortestpath + (shortestpath / 10)))
+    possibleflag = true;
+end
+
+
+firstcorner
+
+if(possibleflag)
+if(shortestpath == distOL)
+   %nimm dist UR als länge für die ecke
+   %Oben = neue ecke 
+   firstcorner = [(secondcorner(1) - thirdcorner(1)) (secondcorner(2) - thirdcorner(2))] + fourthcorner;
+elseif(shortestpath == distRO)
+   %nimm dist LU als länge für die ecke
+   %Oben = neue ecke
+   firstcorner = [(thirdcorner(1) - fourthcorner(1)) (thirdcorner(2) - fourthcorner(2))] + secondcorner;
+elseif(shortestpath == distLU)
+   %nimm dist RO als länge für die ecke
+   %Unten = neue ecke 
+   fourthcorner = [(secondcorner(1) - firstcorner(1)) (secondcorner(2) - firstcorner(2))] + thirdcorner;
+elseif(shortestpath == distUR)
+   %nimm dist OL als länge für die ecke
+   %Unten = neue ecke 
+   fourthcorner = [(fourthcorner(1) - firstcorner(1)) (fourthcorner(2) - firstcorner(2))] + secondcorner;
+end
+end
+firstcorner 
+%figure;
+imshow(card_two_gray);
+hold on;
+plot(10,10,'x');
+plot(30,10,'o');
+plot(10,30,'s');
+plot(firstcorner(2),firstcorner(1), '+');
+hold off;
+
+corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
+
+
 % Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
 r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
 c = [corners(1,2) corners(2,2) corners(3,2) corners(4,2)]';
@@ -244,11 +324,17 @@ d_r = pdist(rechts,'euclidean');
 
 % Kartenverhältnis 5:8
 base = [0 0; 0 8; 5 0; 5 8*(d_r/d_l)];
-tform = fitgeotrans([c r], base*100,'projective');
-%I2 = imcrop(card_one, [secondcorner(2)-20 firstcorner(1)-20 320 350]);
-%figure;
-%imshow(I2);
-card_two_corrected = imwarp(card_two,tform);
+%%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
+movPts = [c r];
+fixPts = base;
+% tform = getTform(movPts, fixPts);
+
+movPtsH = makehomogeneous(movPts');
+fixPtsH = makehomogeneous(fixPts');
+tform = homography2d(movPtsH,fixPtsH);
+
+card_two_corrected = imTrans(card_two, tform);
+
 figure;
 imshow(card_two_corrected);
 
