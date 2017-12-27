@@ -5,14 +5,18 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/test_img_pers3.jpg');
+input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_10.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+close all;
 
 % Grayscale image
 input_gray = rgb2gray(input);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Binarized Image
+% binaryInput = im2bw(input_gray); Andi: diesen kommentar bitte nicht
+% löschen. ich hab matlab 15, das unterstützt imbinarize leider nicht
 binaryInput = imbinarize(input_gray, 0.5);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -71,6 +75,12 @@ imshowpair(card_one, card_two, 'Montage');
 card_one_gray = rgb2gray(card_one);
 card_two_gray = rgb2gray(card_two);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% NUR ZUM DEBUGEN NACH DEM KARTEN ERKENNEN 
+% figure();
+% imshow(card_one);
+% figure();
+% imshow(card_two);
 
 % Harris Corner Detector
 % C = corner(card_one_gray);
