@@ -15,9 +15,9 @@ input_gray = rgb2gray(input);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Binarized Image
-% binaryInput = im2bw(input_gray); Andi: diesen kommentar bitte nicht
-% löschen. ich hab matlab 15, das unterstützt imbinarize leider nicht
-binaryInput = imbinarize(input_gray, 0.5);
+%  Andi: diesen kommentar bitte nicht löschen. ich hab matlab 15, das unterstützt imbinarize leider nicht
+binaryInput = im2bw(input_gray); 
+% binaryInput = imbinarize(input_gray, 0.5);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % connected components
