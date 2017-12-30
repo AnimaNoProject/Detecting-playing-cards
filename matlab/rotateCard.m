@@ -1,6 +1,7 @@
 function [ rotated_Card ] = rotateCard( card )
 %ROTATECARD Summary of this function goes here
 %   Detailed explanation goes here
+%   Jan Michael Lajarno
 
 card_bw = imbinarize(rgb2gray(card), 0.47);
 
