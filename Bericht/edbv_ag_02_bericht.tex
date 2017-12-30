@@ -144,13 +144,19 @@ Die Aufgabe für die erste verwendete Methode ist das Trennen der Karten vom Hin
 ein Graustufenbild in ein Bin\"aerbild umgewandelt. Wir haben uns f\"uer den Threshhold nach Otsu entschieden, da es in der Kombination mit der Zusammenhangskomponente besonders dazu eignet 
 um Objekte vom Hintergrund zu trennen. 
 
+Beim Threshhold nach Otsu wird versucht, die beiden Segmente (Vordergrund/Hintergrund) so kompakt wie möglich zu machen und die Überschneidung gering zu halten.
+
 Um das Trennen der Karten zu vereinfachen schränken wir die Eingabe dahingehend ein, dass beim Bild der Karten der Hintergrund nicht weiß sein darf und möglichst texturarm. Diese 
 Einschränkungen machen unseren Threshhold nach Otsu stabiler und sehr erfolgssicher beim Trennen der Karten vom Hintergrund.
-
 \subsection{Geometrische Transformation}
 
-\subsection{Pattern-Matching}
+\subsection{Template-Matching}
+Um die Karte schlussendlich zu identifizieren haben wir uns für das Template Matching entschieden. Das Template-Matching bietet genau die Lösung zu unserer letzten Problemstellung.
+Mithilfe des Template-Matching versuchen wir herauszufinden ob es sich bei der Karte um Herz, Pik, Kreuz oder Karo handelt und ob es sich um Ass, K\"onig\, Dame, Bube oder Zehn handelt.
+Aus der Kombination dieser beiden Symbole k\"onnen wir die Karte eindeutig identifizieren.
 
+Beim Template-Matching wird versucht ein Bild beziehungsweise einen Bildausschnitt in einem anderen Bild wiederzufinden. User Template-Matching wird mittels einer Correlation-Matrix realisiert,
+es wird druch alle Möglichkeiten durchiteriert und das passenste wird der Karte zugewiesen.
 %%------------------------------------------------------
 
 %%------------------------------------------------------
