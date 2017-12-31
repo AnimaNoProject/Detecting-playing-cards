@@ -5,8 +5,8 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/test_img_pers2a.jpg');
-%input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1_mod11.jpg');
+%input = imread('input/test_img_pers2a.jpg');
+input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -71,14 +71,14 @@ card_two(:,:,3) = double(card_two(:,:,3)) .* card_second(:,:);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Show both cards
-imshowpair(card_one, card_two, 'Montage');
+%imshowpair(card_one, card_two, 'Montage');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %grayscale of the two single cards
 card_one_gray = rgb2gray(card_one);
 card_two_gray = rgb2gray(card_two);
 
-
+%{
 %%%%%%%%find corner%%%%%%%%%%%%%
 %get bounding box of binary images
 boundingbox     = regionprops(card_first, 'BoundingBox');
@@ -171,11 +171,13 @@ tform = homography2d(movPtsH,fixPtsH);
 card_one_corrected = imTrans(card_one, tform);
 %%figure;
 %%imshow(card_one_corrected);
+%}
 
-%
+
+
 %%%%%%%%find corner 2. Karte%%%%%%%%%%%%%
 %get bounding box of binary images
-boundingbox     = regionprops(card_second, 'BoundingBox');
+boundingbox     = regionprops(card_first, 'BoundingBox');
 %%chull = regionprops(card_second, 'ConvexHull')
 %figure;
 %imshow(card_two)
@@ -194,7 +196,7 @@ thirdcorner     = -1;
 fourthcorner    = -1;
 %get first corner from top left to top right
 for x = left : right
-    value = card_second(top, x);
+    value = card_first(top, x);
     if(value == 1)
         firstcorner = [top, x];
         break;
@@ -202,7 +204,7 @@ for x = left : right
 end
 %get second corner from top left to bottom left
 for y = top : bottom
-    value = card_second(y, left);
+    value = card_first(y, left);
     if(value == 1)
         secondcorner = [y, left];
         break;
@@ -210,7 +212,7 @@ for y = top : bottom
 end
 %get third corner top right to bottom right
 for y = top : bottom
-    value = card_second(y, right);
+    value = card_first(y, right);
     if(value == 1)
         thirdcorner = [y, right];
         break;
@@ -218,21 +220,14 @@ for y = top : bottom
 end
 %get fourth corner from bottom left to bottom right
 for x = left : right
-    value = card_second(bottom, x);
+    value = card_first(bottom, x);
     if(value == 1)
         fourthcorner = [bottom, x];
         break;
     end
 end
 
-%figure();
-imshow(card_two_gray);
-hold on;
-plot(firstcorner(2),firstcorner(1), '+');
-plot(secondcorner(2),secondcorner(1), '*');
-plot(thirdcorner(2),thirdcorner(1), 's');
-plot(fourthcorner(2),fourthcorner(1), 'o');
-hold off;
+
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
 
@@ -257,11 +252,15 @@ distarray = [distOL,distLU,distUR,distRO];
 %Wir suchen nach den 2 kürzesten wegen, der kürzeste ist der einbruch
 %Der zweite gilt zur prüfung von randbedingungen
 shortestpath = distOL;
+longestpath = distOL;
 secondshortestpath = distRO;
 
 for i = 1:4
     if(distarray(i) < shortestpath)
         shortestpath = distarray(i);
+    end
+    if(distarray(i) > longestpath)
+        longestpath = distarray(i);
     end
 end
 
@@ -274,6 +273,39 @@ for i = 1:4
     end
 end
 
+%Schneide Längste Kante dort ab, wo sie gleich lang wie kürzeste Kante ist
+newcorner = firstcorner;
+verhaeltnisLS = shortestpath/longestpath
+
+%an den längsten grenzt der kürzeste,idealer weise die nicht geschnittene
+%kante
+if(longestpath == distOL)
+    if(shortestpath == distRO || secondshortestpath == distRO)
+        %links(secondcorner) ist das zu lange eck
+    elseif(shortestpath == distLU || secondshortestpath == distLU)
+        %oben(firstcorner) ist das zu lange eck
+        
+    end
+elseif(longestpath == distRO)
+elseif(longestpath == distLU)
+elseif(longestpath == distUR)
+    if(shortestpath == distRO || secondshortestpath == distRO)
+        %unten(fourthcorner) ist das zu lange eck
+        x = (fourthcorner(1));
+        y = (fourthcorner(2));
+        xx = thirdcorner(1);
+        yy = thirdcorner(2);
+        newcorner = [((x + xx)) ((y + yy))] *(1/2)%*(verhaeltnisLS)
+        
+        %newcorner = [(fourthcorner(1) - thirdcorner(1)) (fourthcorner(2) - thirdcorner(2))] + (thirdcorner)
+    elseif(shortestpath == distLU || secondshortestpath == distLU)
+        %rechts(thirdcorner) ist das zu lange eck
+        
+    end
+end
+
+
+%{
 possibleflag = false;
 
 % 10% Unterschied, damit die funktion gewährleistet wird
@@ -281,9 +313,7 @@ if(secondshortestpath > (shortestpath + (shortestpath / 10)))
     possibleflag = true;
 end
 
-
 firstcorner
-
 if(possibleflag)
 if(shortestpath == distOL)
    %nimm dist UR als länge für die ecke
@@ -304,13 +334,19 @@ elseif(shortestpath == distUR)
 end
 end
 firstcorner 
-%figure;
-imshow(card_two_gray);
+%}
+
+figure();
+imshow(card_one_gray);
 hold on;
 plot(10,10,'x');
 plot(30,10,'o');
 plot(10,30,'s');
 plot(firstcorner(2),firstcorner(1), '+');
+plot(secondcorner(2),secondcorner(1), '*');
+plot(thirdcorner(2),thirdcorner(1), 's');
+plot(fourthcorner(2),fourthcorner(1), 'o');
+plot(newcorner(2),newcorner(1), 'p');
 hold off;
 
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
@@ -326,7 +362,7 @@ d_l = pdist(links,'euclidean');
 d_r = pdist(rechts,'euclidean');
 
 % Kartenverhältnis 5:8
-base = [0 0; 0 8; 5 0; 5 8*(d_r/d_l)];
+base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)];
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
 movPts = [c r];
 fixPts = base;
@@ -336,10 +372,10 @@ movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
 tform = homography2d(movPtsH,fixPtsH);
 
-card_two_corrected = imTrans(card_two, tform);
+card_one_corrected = imTrans(card_one, tform);
 
 figure;
-imshow(card_two_corrected);
+imshow(card_one_corrected);
 
 %}
 
