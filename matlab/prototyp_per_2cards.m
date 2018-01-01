@@ -5,7 +5,7 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-%input = imread('input/test_img_pers2a.jpg');
+%input = imread('input/testc2.jpg');
 input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -231,6 +231,18 @@ end
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
 
+%figure();
+%imshow(card_one_gray);
+%hold on;
+%plot(10,10,'x');
+%plot(30,10,'x');
+%plot(10,30,'x');
+%plot(firstcorner(2),firstcorner(1), '+');
+%plot(secondcorner(2),secondcorner(1), '*');
+%plot(thirdcorner(2),thirdcorner(1), 's');
+%plot(fourthcorner(2),fourthcorner(1), 'o');
+%hold off;
+
 %%%%%%%%%%%%%%% Generate a fake corner %%%%%%%%%%%%%%%%%%
 
 %%Find shortest distance between points - this is, where the card is
@@ -276,66 +288,98 @@ end
 newcorner = firstcorner;
 %verhaeltnisLS = shortestpath/longestpath
 
-%an den längsten grenzt der kürzeste,idealer weise die nicht geschnittene
-%kante
+
+%Berechne den neuen punkt
 if(longestpath == distOL)
     if(shortestpath == distRO || secondshortestpath == distRO)
         %links(secondcorner) ist das zu lange eck
+        
+        newcorner = firstcorner - secondcorner;
+        betragnewcorner = norm(newcorner);
+        einheitsvektor = newcorner/betragnewcorner;
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
+        newcorner = secondcorner + einheitsvektor;
+        
+        secondcorner = newcorner;
     elseif(shortestpath == distLU || secondshortestpath == distLU)
         %oben(firstcorner) ist das zu lange eck
+        %180° WORKS
+        newcorner = secondcorner - firstcorner;
+        betragnewcorner = norm(newcorner);
+        einheitsvektor = newcorner/betragnewcorner;
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
+        newcorner = firstcorner + einheitsvektor;
         
+        firstcorner = newcorner;
     end
 elseif(longestpath == distRO)
+    if(shortestpath == distOL || secondshortestpath == distOL)
+        %rechts(thirdcorner) ist das zu lange eck
+        %270° SEMIWORKS - verzerrung, da gedreht
+        newcorner = firstcorner - thirdcorner;
+        betragnewcorner = norm(newcorner);
+        einheitsvektor = newcorner/betragnewcorner;
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
+        newcorner = thirdcorner + einheitsvektor;
+        
+        thirdcorner = newcorner;
+    elseif(shortestpath == distUR || secondshortestpath == distUR)
+        %oben(firstcorner) ist das zu lange eck
+        %
+        newcorner = thirdcorner - firstcorner;
+        betragnewcorner = norm(newcorner);
+        einheitsvektor = newcorner/betragnewcorner;
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
+        newcorner = firstcorner + einheitsvektor;
+        
+        firstcorner = newcorner;
+    end
 elseif(longestpath == distLU)
+    if(shortestpath == distOL || secondshortestpath == distOL)
+        %unten(fourthcorner)ist das zu lange eck
+        %
+        newcorner = secondcorner - fourthcorner;
+        betragnewcorner = norm(newcorner);
+        einheitsvektor = newcorner/betragnewcorner;
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
+        newcorner = fourthcorner + einheitsvektor;
+        
+        fourthcorner = newcorner;
+    elseif(shortestpath == distUR || secondshortestpath == distUR)
+        %links(secondcorner)ist das zu lange eck
+        %90° SEMIWORKS - verzerrung, da gedreht
+        newcorner = fourthcorner - secondcorner;
+        betragnewcorner = norm(newcorner);
+        einheitsvektor = newcorner/betragnewcorner;
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
+        newcorner = secondcorner + einheitsvektor;
+        
+        secondcorner = newcorner;
+    end
 elseif(longestpath == distUR)
     if(shortestpath == distRO || secondshortestpath == distRO)
-        %unten(fourthcorner) ist das zu lange eck  
-        %Berechne den neuen punkt
+        %unten(fourthcorner) ist das zu lange eck
+        %0° WORKS
         newcorner = thirdcorner - fourthcorner;
         betragnewcorner = norm(newcorner);
         einheitsvektor = newcorner/betragnewcorner;
         einheitsvektor = einheitsvektor * (longestpath - shortestpath);
         newcorner = fourthcorner + einheitsvektor;
         
-        %thirdcorner = newcorner;
-        
+        fourthcorner = newcorner;
     elseif(shortestpath == distLU || secondshortestpath == distLU)
         %rechts(thirdcorner) ist das zu lange eck
+        %
+        newcorner = fourthcorner - thirdcorner;
+        betragnewcorner = norm(newcorner);
+        einheitsvektor = newcorner/betragnewcorner;
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
+        newcorner = thirdcorner + einheitsvektor;
         
+        thirdcorner = newcorner;
     end
 end
 
-
-%{
-possibleflag = false;
-
-% 10% Unterschied, damit die funktion gewährleistet wird
-if(secondshortestpath > (shortestpath + (shortestpath / 10)))
-    possibleflag = true;
-end
-
-firstcorner
-if(possibleflag)
-if(shortestpath == distOL)
-   %nimm dist UR als länge für die ecke
-   %Oben = neue ecke 
-   firstcorner = [(secondcorner(1) - thirdcorner(1)) (secondcorner(2) - thirdcorner(2))] + fourthcorner;
-elseif(shortestpath == distRO)
-   %nimm dist LU als länge für die ecke
-   %Oben = neue ecke
-   firstcorner = [(thirdcorner(1) - fourthcorner(1)) (thirdcorner(2) - fourthcorner(2))] + secondcorner;
-elseif(shortestpath == distLU)
-   %nimm dist RO als länge für die ecke
-   %Unten = neue ecke 
-   fourthcorner = [(secondcorner(1) - firstcorner(1)) (secondcorner(2) - firstcorner(2))] + thirdcorner;
-elseif(shortestpath == distUR)
-   %nimm dist OL als länge für die ecke
-   %Unten = neue ecke 
-   fourthcorner = [(fourthcorner(1) - firstcorner(1)) (fourthcorner(2) - firstcorner(2))] + secondcorner;
-end
-end
-firstcorner 
-%}
 
 figure();
 imshow(card_one_gray);
@@ -347,7 +391,7 @@ plot(firstcorner(2),firstcorner(1), '+');
 plot(secondcorner(2),secondcorner(1), '*');
 plot(thirdcorner(2),thirdcorner(1), 's');
 plot(fourthcorner(2),fourthcorner(1), 'o');
-plot(newcorner(2),newcorner(1), 'p');
+plot(newcorner(2),newcorner(1), 'p'); % um alle punkte korrekt zu sehen -> lösche eckenneuzuweisung
 hold off;
 
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
