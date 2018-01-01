@@ -1,31 +1,43 @@
-function [tform] = getTform(movPts, fixPts)
-    [movPts,normMatrix1] = images.geotrans.internal.normalizeControlPoints(movPts);
-    [fixPts,normMatrix2] = images.geotrans.internal.normalizeControlPoints(fixPts);
+% HOMOGRAPHY2D - computes 2D homography
+%
+% Usage:   H = homography2d(x1, x2)
+%          H = homography2d(x)
+%
+% Arguments:
+%          mov  - 3xN set of homogeneous points
+%          fix  - 3xN set of homogeneous points such that x1<->x2
+%         
+% Returns:
+%          H - the 3x3 homography such that x2 = H*x1
+%
+% This code follows the normalised direct linear transformation 
+% algorithm given by Hartley and Zisserman "Multiple View Geometry in
+% Computer Vision" p92.
 
-    M = size(fixPts,1);
-    % Koordinaten der Ecken
-    u = movPts(:,1);
-    v = movPts(:,2);
-    % Koordinaten der Fixpuntke
-    x = fixPts(:,1);
-    y = fixPts(:,2);
-    vec_1 = ones(M,1);
-    vec_0 = zeros(M,1);
-
-    % U = X * Tvec, where Tvec = [A B C D E F G H]' ... homogene Matrix
-    U = [u; v];
-    % u = [x y 1 0 0 0 -ux -uy] * [A B C D E F G H]'
-    % v = [0 0 0 x y 1 -vx -vy] * [A B C D E F G H]'
-    X = [x      y       vec_1   vec_0   vec_0   vec_0   -u.*x    -u.*y;
-         vec_0  vec_0   vec_0   x       y       vec_1   -v.*x    -v.*y];
-    % Lösen des linearen Gleichungssytem
-    Tvec = mldivide(X,U);
-    Tvec(9) = 1;
-    Tinv = reshape(Tvec,3,3);
-    % Lösen des linearen Gleichungssytem
-    Tinv = mldivide(normMatrix2,(Tinv * normMatrix1));
-    T = inv(Tinv);
-    T = T ./ T(3,3);
-    % creates a TFORM struct for an N-dimensional projective transformation
-    tform = maketform('projective',T); %projective2d(T);
+function H = gettform(mov,fix)
+    % Punkte normalisieren
+    [mov, T1] = normalise2dpts(mov);
+    [fix, T2] = normalise2dpts(fix);
+  
+    Npts = length(mov);
+    A = zeros(3*Npts,9);
+    
+    for n = 1:Npts
+        X = mov(:,n)';
+        x = fix(1,n); 
+        y = fix(2,n); 
+        w = fix(3,n);
+        A(3*n-2,:) = [0 0 0  -w*X     y*X];
+        A(3*n-1,:) = [w*X    0 0 0   -x*X];
+    	A(3*n  ,:) = [-y*X    x*X   0 0 0];
+    end
+    
+    [U,D,V] = svd(A,0); % 'Economy' decomposition for speed
+    
+    % 3x3 Matrix 
+    H = reshape(V(:,9),3,3)';
+    
+    % Denormalise
+    H = T2\H*T1;
 end
+    

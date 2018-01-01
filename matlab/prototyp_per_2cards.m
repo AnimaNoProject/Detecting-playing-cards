@@ -166,7 +166,7 @@ fixPts = base;
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = homography2d(movPtsH,fixPtsH);
+tform = gettform(movPtsH,fixPtsH);
 
 card_one_corrected = imTrans(card_one, tform);
 %%figure;
@@ -403,7 +403,7 @@ fixPts = base;
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = homography2d(movPtsH,fixPtsH);
+tform = gettform(movPtsH,fixPtsH);
 
 card_one_corrected = imTrans(card_one, tform);
 
