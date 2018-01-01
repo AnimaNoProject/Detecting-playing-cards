@@ -1,6 +1,7 @@
 function [card_one, card_two] = splitCards(input_picture)
 %SPLITCARDS Summary of this function goes here
-%   Detailed explanation goes here
+%   Author:
+%   Jan Michael Lajarno
 
        input_gray = rgb2gray(input_picture);
 %        input_gray = toGray(input_picture);

@@ -5,14 +5,8 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-<<<<<<< HEAD
-input = imread('input/test_img_pers2a.jpg');
-%input = imread('input/test2.jpg');
-%input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1_mod11.jpg');
-=======
 %input = imread('input/testc2.jpg');
 input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1.jpg');
->>>>>>> 754e3b794fdb70d58e1a872b49ab6b006c6cba6c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -137,8 +131,8 @@ for x = left : right
 end
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
 
-figure();
-imshow(card_one_gray);
+%%figure();
+%%imshow(card_one_gray);
 hold on;
 plot(firstcorner(2),firstcorner(1), '*');
 plot(secondcorner(2),secondcorner(1), '*');
@@ -172,7 +166,7 @@ fixPts = base;
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = gettform(movPtsH,fixPtsH);
+tform = homography2d(movPtsH,fixPtsH);
 
 card_one_corrected = imTrans(card_one, tform);
 %%figure;
@@ -234,7 +228,7 @@ for x = left : right
 end
 
 
-%---- Test for all corners ----% 
+%%%%%%%%%%%%%%% Test for all corners %%%%%%%%%%%%%%% 
 
 %figure();
 %imshow(card_one_gray);
@@ -374,7 +368,6 @@ elseif(longestpath == distUR)
     end
 end
 
-%---- Test for all corners including the new one ----% 
 
 %figure();
 %imshow(card_one_gray);
@@ -389,8 +382,8 @@ end
 %plot(newcorner(2),newcorner(1), 'p'); % um alle punkte korrekt zu sehen -> lösche eckenneuzuweisung
 %hold off;
 
-
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
+
 
 % Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
 r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
@@ -401,20 +394,21 @@ rechts = [thirdcorner; fourthcorner];
 d_l = pdist(links,'euclidean');
 d_r = pdist(rechts,'euclidean');
 
-% Kartenverhältnis 5:8 normal - 5:4 bei halber Karte
+% Kartenverhältnis 5:8
 base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)];
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
 movPts = [c r];
 fixPts = base;
+% tform = getTform(movPts, fixPts);
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = gettform(movPtsH,fixPtsH);
+tform = homography2d(movPtsH,fixPtsH);
 
 card_one_corrected = imTrans(card_one, tform);
 
-%figure;
-%imshow(card_one_corrected);
+figure;
+imshow(card_one_corrected);
 
-
+%}
 

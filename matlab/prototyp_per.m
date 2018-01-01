@@ -1,5 +1,5 @@
 % Prototype here please %
-
+close all;
 %1. Karten teilen/ 2 separate bilder erstellen mit je 1 Karte
 %2. Geometrisch projezieren / homogenes Bild erhalten
 %3. Template matching - resultat erhalten
@@ -136,8 +136,8 @@ hold off;
 
 %%%%%%%%%%%%%%% perspective correction %%%%%%%%%%%%%%% 
 % Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
-%r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
-%c = [firstcorner(2) secondcorner(2) thirdcorner(2) fourthcorner(2)]';
+% r = [firstcorner(1) secondcorner(1) thirdcorner(1) fourthcorner(1)]';
+% c = [firstcorner(2) secondcorner(2) thirdcorner(2) fourthcorner(2)]';
 r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
 c = [corners(1,2) corners(2,2) corners(3,2) corners(4,2)]';
 
@@ -147,19 +147,18 @@ dleft = pdist(topLeft,'euclidean');
 dright = pdist(topRight,'euclidean');
 % Kartenverhältnis 5:8
 if(dleft < dright)
-    base = [5 0; 0 0; 5 8; 0 8];
+    base = [5 0; 0 0; 5 8; 0 8]*20;
 else
-    base = [0 0; 0 8; 5 0; 5 8];  
+    base = [0 0; 0 8; 5 0; 5 8]*20;
 end
 
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
 movPts = [c r];
 fixPts = base;
-% tform = getTform(movPts, fixPts);
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = homography2d(movPtsH,fixPtsH);
+tform = gettform(movPtsH,fixPtsH);
 
 card_one_corrected = imTrans(card_one, tform);
 figure;

@@ -1,6 +1,7 @@
 function maxcorr = tmc( target, template)
 %TMC Summary of this function goes here
 %   Detailed explanation goes here
+%   Andreas Brunner
 
     A = target(:,:,1);
     B = template(:,:,1);
@@ -20,16 +21,16 @@ function maxcorr = tmc( target, template)
     [x,y]=find(corr_map==maxpt);
 
     %Display the image from the template
-    figure,imagesc(template);title('Template Image');colormap(gray);axis image
+    %figure,imagesc(template);title('Template Image');colormap(gray);axis image
 
-    grayA = rgb2gray(target);
-    Res   = A;
-    Res(:,:,1)=grayA;
-    Res(:,:,2)=grayA;
-    Res(:,:,3)=grayA;
+    %grayA = rgb2gray(target);
+    %Res   = A;
+    %Res(:,:,1)=grayA;
+    %Res(:,:,2)=grayA;
+    %Res(:,:,3)=grayA;
 
-    Res(x:x+size(B,1)-1,y:y+size(B,2)-1,:)=target(x:x+size(B,1)-1,y:y+size(B,2)-1,:);
+    %Res(x:x+size(B,1)-1,y:y+size(B,2)-1,:)=target(x:x+size(B,1)-1,y:y+size(B,2)-1,:);
 
-    figure,imagesc(Res);title('Matched');
+    %figure,imagesc(Res);title('Matched');
 end
 

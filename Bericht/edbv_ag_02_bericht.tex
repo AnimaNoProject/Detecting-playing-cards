@@ -114,15 +114,15 @@ einer der Spieler Karten im Wert von 66 Punkten gestochen hat. Sind alle Karten 
     \hline
   Name & Tätigkeiten\\
     \hline
-		Jan Michael Lajarno & Matlab: Prototyp, rotateCard, findEdges \newline Bericht: Gewählte Problemstellung\\
+		Jan Michael Lajarno & Matlab: Prototyp, ausführbares Programm, rotateCard, findEdges \newline Bericht: Methodik/Implementierung(Template Matching), Gewählte Problemstellung, Schlusswort\\
 		\hline
-		Andreas Brunner & Matlab: Prototyp, scaleCard, tmc \newline Bericht: Arbeitsteilung, Methodik(Template Matching)\\
+		Andreas Brunner & Matlab: Prototyp, scaleCard, tmc \newline Bericht: Arbeitsteilung\\
 		\hline
-		Miran Jank & Matlab: Prototyp, GUI, geometricTransform \newline Bericht: Schlusswort, Titelseite, Methodik(Geometrische Transformation)\\
+		Miran Jank & Matlab: geometricTransform \newline Bericht: Methodik(Geometrische Transformation)\\
 		\hline
-		Thorsten Korpitsch & Matlab: Prototyp, ausführbares Programm, splitCards, thresholdOtsu \newline Bericht: Evaluierung, Methodik(Threshhold nach Otsu)\\
+		Thorsten Korpitsch & Matlab: Prototyp, splitCards, thresholdOtsu \newline Bericht: Evaluierung, Methodik/Implementierung(Threshhold nach Otsu)\\
 		\hline
-		Aleksandar Marinkovic & Matlab: Prototyp, geometricTransform \newline Bericht: Methodik(Geometrische Transformation), Implementierung\\ 
+		Aleksandar Marinkovic & Matlab: Prototyp, geometricTransform \newline Bericht: Implementierung(Geometrische Transformation)\\ 
 		\hline
   \end{tabular}
 \end{center}
@@ -137,7 +137,26 @@ Welche Methodik wurde verwendet? Warum eignet sich diese Methodik für die gewä
 Die erwähnten Methoden werden zum größten Teil auf Beschreibungen in Büchern oder wissenschaftlichen Artikeln beruhen. Daher ist hier auch der richtige Platz für Zitate. Die hier zitierten Publikationen sollten mittels Abkürzung bzw. Nummer referenziert sein und sich in der Referenzliste am Ende des Berichts über diese Bezeichnung finden lassen.\\
 Ein Beispielsatz (inkl. entsprechender Literaturangabe am Ende des Berichts): Interest Points wurden mittels Scale Invariant Feature Transform detektiert.\\
 Bei der Verwendung von Latex gestaltet sich das Zitieren besonders einfach - siehe Beispielssatz im Source der Latex-Vorlage.\\
+
 \textbf{Wichtig in diesem Abschnitt ist, dass sich der Leser eures Berichts mit den verwendeten Methodiken auskennen und wissen, weshalb ihr diese Methodiken verwendet habt und keine anderen. Es soll dem Leser helfen den nächsten Abschnitt des Berichts besser zu verstehen.}
+\subsection{Threshhold nach Otsu}
+Die Aufgabe für die erste verwendete Methode ist das Trennen der Karten vom Hintergrund. Hier haben wir uns für ein Schwellenwertverfahren entschieden. Bei einem Schwellenwertvefahren wird
+ein Graustufenbild in ein Bin\"aerbild umgewandelt. Wir haben uns f\"uer den Threshhold nach Otsu entschieden, da es in der Kombination mit der Zusammenhangskomponente besonders dazu eignet 
+um Objekte vom Hintergrund zu trennen. 
+
+Beim Threshhold nach Otsu wird versucht, die beiden Segmente (Vordergrund/Hintergrund) so kompakt wie möglich zu machen und die Überschneidung gering zu halten.
+
+Um das Trennen der Karten zu vereinfachen schränken wir die Eingabe dahingehend ein, dass beim Bild der Karten der Hintergrund nicht weiß sein darf und möglichst texturarm. Diese 
+Einschränkungen machen unseren Threshhold nach Otsu stabiler und sehr erfolgssicher beim Trennen der Karten vom Hintergrund.
+\subsection{Geometrische Transformation}
+
+\subsection{Template-Matching}
+Um die Karte schlussendlich zu identifizieren haben wir uns für das Template Matching entschieden. Das Template-Matching bietet genau die Lösung zu unserer letzten Problemstellung.
+Mithilfe des Template-Matching versuchen wir herauszufinden ob es sich bei der Karte um Herz, Pik, Kreuz oder Karo handelt und ob es sich um Ass, K\"onig\, Dame, Bube oder Zehn handelt.
+Aus der Kombination dieser beiden Symbole k\"onnen wir die Karte eindeutig identifizieren.
+
+Beim Template-Matching wird versucht ein Bild beziehungsweise einen Bildausschnitt in einem anderen Bild wiederzufinden. User Template-Matching wird mittels einer Correlation-Matrix realisiert,
+es wird druch alle Möglichkeiten durchiteriert und das passenste wird der Karte zugewiesen.
 %%------------------------------------------------------
 
 %%------------------------------------------------------
