@@ -249,7 +249,8 @@ distRO = round(pdist(rechtszuoben,'euclidean'));
 distarray = [distOL,distLU,distUR,distRO];
 
 
-%Wir suchen nach den 2 kürzesten wegen
+%Wir suchen nach den 2 kürzesten wegen, der kürzeste ist der einbruch
+%Der zweite gilt zur prüfung von randbedingungen
 shortestpath = distOL;
 longestpath = distOL;
 secondshortestpath = distRO;
@@ -272,9 +273,9 @@ for i = 1:4
     end
 end
 
-%%%Schneide Längste Kante dort ab, wo sie gleich lang wie kürzeste Kante ist
+%Schneide Längste Kante dort ab, wo sie gleich lang wie kürzeste Kante ist
 newcorner = firstcorner;
-%verhaeltnisLS = shortestpath/longestpath
+verhaeltnisLS = shortestpath/longestpath
 
 %an den längsten grenzt der kürzeste,idealer weise die nicht geschnittene
 %kante
@@ -289,16 +290,24 @@ elseif(longestpath == distRO)
 elseif(longestpath == distLU)
 elseif(longestpath == distUR)
     if(shortestpath == distRO || secondshortestpath == distRO)
-        %unten(fourthcorner) ist das zu lange eck  
-        %Berechne den neuen punkt
-        newcorner = thirdcorner - fourthcorner;
-        betragnewcorner = norm(newcorner);
-        einheitsvektor = newcorner/betragnewcorner;
-        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
-        newcorner = fourthcorner + einheitsvektor;
+        %unten(fourthcorner) ist das zu lange eck
         
-        %thirdcorner = newcorner;
+        %mitte zwischen 2 und 3
+        %x = (fourthcorner(1));
+        %y = (fourthcorner(2));
+        %xx = thirdcorner(1);
+        %yy = thirdcorner(2);
+        %newcorner = [((x + xx)) ((y + yy))] *(1/2)%*(verhaeltnisLS)
         
+        %Berechne
+        newcorner = thirdcorner - fourthcorner
+        betragnewcorner = norm(newcorner) 
+        einheitsvektor = newcorner/betragnewcorner
+        einheitsvektor = einheitsvektor * (longestpath - shortestpath)
+        newcorner = fourthcorner + einheitsvektor
+        
+        %punkt 3 wieder
+        %newcorner = [(fourthcorner(1) - thirdcorner(1)) (fourthcorner(2) - thirdcorner(2))] + (thirdcorner)
     elseif(shortestpath == distLU || secondshortestpath == distLU)
         %rechts(thirdcorner) ist das zu lange eck
         
