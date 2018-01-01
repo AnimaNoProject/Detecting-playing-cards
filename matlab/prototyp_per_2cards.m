@@ -6,6 +6,7 @@
 
 % Original Image
 input = imread('input/test_img_pers2a.jpg');
+%input = imread('input/test2.jpg');
 %input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1_mod11.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -131,8 +132,8 @@ for x = left : right
 end
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
 
-%%figure();
-%%imshow(card_one_gray);
+figure();
+imshow(card_one_gray);
 hold on;
 plot(firstcorner(2),firstcorner(1), '*');
 plot(secondcorner(2),secondcorner(1), '*');
