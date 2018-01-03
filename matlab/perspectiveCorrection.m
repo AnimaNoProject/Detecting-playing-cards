@@ -18,7 +18,7 @@ function [orthogonalpersp_card] = perspectiveCorrection(img, firstcorner, second
     fixPts  = base;
     movPtsH = makehomogeneous(movPts');
     fixPtsH = makehomogeneous(fixPts');
-    tform   = gettform(movPtsH,fixPtsH);
+    tform   = gettform2(movPtsH,fixPtsH);
 
     orthogonalpersp_card = geotransform(img, tform);
 end

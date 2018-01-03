@@ -1,4 +1,5 @@
 function [correctCorners] = correctCorner(corner1, corner2, corner3, corner4)
+    correctCorners = [];
     if(isCorrectEdge(corner1, [corner2;corner3;corner4]))
         correctCorners = getCorrectCorners(corner1, [corner2;corner3;corner4]);
     elseif(isCorrectEdge(corner2, [corner1;corner3;corner4]))

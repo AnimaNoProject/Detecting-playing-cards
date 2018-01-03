@@ -230,7 +230,7 @@ fixPts = base;
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = gettform(movPtsH,fixPtsH);
+tform = gettform2(movPtsH,fixPtsH);
 
 card_one_corrected = geotransform(card_one, tform);
 

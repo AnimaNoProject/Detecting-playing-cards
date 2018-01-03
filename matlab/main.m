@@ -11,9 +11,9 @@ function [result] = main(img_path)
     rotationMatrix = [cosd(theta) -sind(theta); sind(theta) cosd(theta)];
     first_gray_image    = rgb2gray(first_rgb_image);
     second_gray_image   = rgb2gray(second_rgb_image);
-    
-    [first_perspcorrected_card] = correctPerspectives(first_rgb_image, first_binary_image, second_rgb_image, second_binary_image);
-    
+    %correct the perspective of the 2 cards
+    [first_perspcorrected_card]     = correctPerspectives(first_rgb_image, first_binary_image, second_rgb_image, second_binary_image);
+    [second_perspcorrected_card]    = geom_transf_lowercard(first_rgb_image);
     
     clc;
     clear all;
