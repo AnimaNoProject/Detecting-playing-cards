@@ -7,6 +7,8 @@ function [result] = main(img_path)
     %get the colored result of the split cards
     [first_rgb_image, second_rgb_image] = getSplitColoredCard(image, first_binary_image, second_binary_image);
     %get grayscale images 
+    theta = 90;
+    rotationMatrix = [cosd(theta) -sind(theta); sind(theta) cosd(theta)];
     first_gray_image    = rgb2gray(first_rgb_image);
     second_gray_image   = rgb2gray(second_rgb_image);
     
