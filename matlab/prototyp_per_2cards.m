@@ -174,7 +174,7 @@ movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
 tform = gettform(movPtsH,fixPtsH);
 
-card_one_corrected = imTrans(card_one, tform);
+card_one_corrected = geotransform(card_one, tform);
 %%figure;
 %%imshow(card_one_corrected);
 %}
@@ -411,7 +411,7 @@ movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
 tform = gettform(movPtsH,fixPtsH);
 
-card_one_corrected = imTrans(card_one, tform);
+card_one_corrected = geotransform(card_one, tform);
 
 %figure;
 %imshow(card_one_corrected);
