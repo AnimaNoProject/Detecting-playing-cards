@@ -148,9 +148,9 @@ dleft = pdist(topLeft,'euclidean');
 dright = pdist(topRight,'euclidean');
 % Kartenverhältnis 5:8
 if(dleft < dright)
-    base = [5 0; 0 0; 5 8; 0 8]*50;
+    base = [5 0; 0 0; 5 8; 0 8]*60;
 else
-    base = [0 0; 0 8; 5 0; 5 8]*50;
+    base = [0 0; 0 8; 5 0; 5 8]*60;
 end
 
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
@@ -159,9 +159,22 @@ fixPts = base;
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = gettform(movPtsH,fixPtsH);
+tform = gettform2(movPtsH,fixPtsH);
 
-card_one_corrected = geotransform(card_one, tform);
+card_one = double(card_one); 
+    
+card_one = card_one/255;  
+[r] = geotransform2(card_one(:,:,1), tform);
+[g] = geotransform2(card_one(:,:,2), tform);
+[b] = geotransform2(card_one(:,:,3), tform);
+
+card_one_corrected = repmat(uint8(0),[size(r),3]);
+card_one_corrected(:,:,1) = uint8(round(r*255));
+card_one_corrected(:,:,2) = uint8(round(g*255));
+card_one_corrected(:,:,3) = uint8(round(b*255));
+
+
+% card_one_corrected = geotransform2(card_one, tform);
 figure;
 imshow(card_one_corrected);
 
