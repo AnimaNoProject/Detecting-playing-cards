@@ -5,8 +5,9 @@ close all;
 %3. Template matching - resultat erhalten
 
 % Original Image
-%input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_10.jpg');
-input = imread('input/test_img_pers2a.jpg');
+input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_11.jpg');
+% write = 'Spiel 3_11.jpg';
+% input = imread('input/test_img_pers2a.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -75,7 +76,7 @@ card_two_gray = rgb2gray(card_two);
 
 %%%%%%%%find corner%%%%%%%%%%%%%
 %get bounding box of binary images
-boundingbox     = regionprops(card_first, 'BoundingBox');
+boundingbox     = regionprops(card_second, 'BoundingBox');
 %figure;
 %imshow(card_one)
 %hold on
@@ -93,7 +94,7 @@ thirdcorner     = -1;
 fourthcorner    = -1;
 %get first corner from top left to top right
 for x = left : right
-    value = card_first(top, x);
+    value = card_second(top, x);
     if(value == 1)
         firstcorner = [top, x];
         break;
@@ -101,7 +102,7 @@ for x = left : right
 end
 %get second corner from top left to bottom left
 for y = top : bottom
-    value = card_first(y, left);
+    value = card_second(y, left);
     if(value == 1)
         secondcorner = [y, left];
         break;
@@ -109,7 +110,7 @@ for y = top : bottom
 end
 %get third corner top right to bottom right
 for y = top : bottom
-    value = card_first(y, right);
+    value = card_second(y, right);
     if(value == 1)
         thirdcorner = [y, right];
         break;
@@ -117,7 +118,7 @@ for y = top : bottom
 end
 %get fourth corner from bottom left to bottom right
 for x = left : right
-    value = card_first(bottom, x);
+    value = card_second(bottom, x);
     if(value == 1)
         fourthcorner = [bottom, x];
         break;
@@ -126,7 +127,7 @@ end
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
 
 figure();
-imshow(card_one_gray);
+imshow(card_two_gray);
 hold on;
 plot(firstcorner(2),firstcorner(1), '*');
 plot(secondcorner(2),secondcorner(1), '*');
@@ -148,33 +149,33 @@ dleft = pdist(topLeft,'euclidean');
 dright = pdist(topRight,'euclidean');
 % Kartenverhältnis 5:8
 if(dleft < dright)
-    base = [5 0; 0 0; 5 8; 0 8]*60;
+    base = [5 0; 0 0; 5 8; 0 8]*150;
 else
-    base = [0 0; 0 8; 5 0; 5 8]*60;
+    base = [0 0; 0 8; 5 0; 5 8]*150;
 end
 
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
 movPts = [c r];
 fixPts = base;
 
-movPtsH = makehomogeneous(movPts');
-fixPtsH = makehomogeneous(fixPts');
-tform = gettform2(movPtsH,fixPtsH);
+tform = gettform2(movPts',fixPts');
 
-card_one = double(card_one); 
-    
-card_one = card_one/255;  
-[r] = geotransform2(card_one(:,:,1), tform);
-[g] = geotransform2(card_one(:,:,2), tform);
-[b] = geotransform2(card_one(:,:,3), tform);
+% In double umwandeln
+card_two = double(card_two);     
+card_two = card_two/255;  
 
+% Kanäle einzeln transformieren
+[r] = geotransform2(card_two(:,:,1), tform);
+[g] = geotransform2(card_two(:,:,2), tform);
+[b] = geotransform2(card_two(:,:,3), tform);
+
+% Output erzeugen und Kanäle zusammenlegen
 card_one_corrected = repmat(uint8(0),[size(r),3]);
 card_one_corrected(:,:,1) = uint8(round(r*255));
 card_one_corrected(:,:,2) = uint8(round(g*255));
 card_one_corrected(:,:,3) = uint8(round(b*255));
 
-
-% card_one_corrected = geotransform2(card_one, tform);
+% imwrite(card_one_corrected, write);
 figure;
 imshow(card_one_corrected);
 
