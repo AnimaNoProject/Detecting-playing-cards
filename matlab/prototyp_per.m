@@ -5,6 +5,7 @@ close all;
 %3. Template matching - resultat erhalten
 
 % Original Image
+%input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_10.jpg');
 input = imread('input/test_img_pers2a.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -147,9 +148,9 @@ dleft = pdist(topLeft,'euclidean');
 dright = pdist(topRight,'euclidean');
 % Kartenverhältnis 5:8
 if(dleft < dright)
-    base = [5 0; 0 0; 5 8; 0 8]*20;
+    base = [5 0; 0 0; 5 8; 0 8]*50;
 else
-    base = [0 0; 0 8; 5 0; 5 8]*20;
+    base = [0 0; 0 8; 5 0; 5 8]*50;
 end
 
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
@@ -160,7 +161,7 @@ movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
 tform = gettform(movPtsH,fixPtsH);
 
-card_one_corrected = imTrans(card_one, tform);
+card_one_corrected = geotransform(card_one, tform);
 figure;
 imshow(card_one_corrected);
 
