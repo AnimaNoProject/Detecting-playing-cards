@@ -30,7 +30,8 @@ card_two = scaleCard(card_two);
 %card_two = rotateCard(card_two);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-card_bw = imbinarize(rgb2gray(card_one), 0.47);
+% card_bw = imbinarize(rgb2gray(card_one), 0.47);
+card_bw = im2bw(rgb2gray(card_one));
 
 boundingbox     = regionprops(card_bw, 'BoundingBox');
 boxproperties   = boundingbox.BoundingBox;

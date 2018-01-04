@@ -3,12 +3,11 @@
 %1. Karten teilen/ 2 separate bilder erstellen mit je 1 Karte
 %2. Geometrisch projezieren / homogenes Bild erhalten
 %3. Template matching - resultat erhalten
-
+close all;
 % Original Image
 input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_10.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-close all;
 
 % Grayscale image
 input_gray = rgb2gray(input);
