@@ -6,7 +6,7 @@
 
 % Original Image
 %input = imread('input/testc2.jpg');
-input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1.jpg');
+input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_2.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -396,18 +396,29 @@ d_l = pdist(links,'euclidean');
 d_r = pdist(rechts,'euclidean');
 
 % Kartenverhältnis 5:8 normal - 5:4 bei halber Karte
-base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)];
+base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)]*150;
 %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
 movPts = [c r];
 fixPts = base;
 
-movPtsH = makehomogeneous(movPts');
-fixPtsH = makehomogeneous(fixPts');
-tform = gettform2(movPtsH,fixPtsH);
+tform = gettform2(movPts',fixPts');
 
-card_one_corrected = geotransform(card_one, tform);
+% In double umwandeln
+card_one = double(card_one);     
+card_one = card_one/255;  
 
-figure;
+% Kanäle einzeln transformieren
+[r] = geotransform2(card_one(:,:,1), tform);
+[g] = geotransform2(card_one(:,:,2), tform);
+[b] = geotransform2(card_one(:,:,3), tform);
+
+% Output erzeugen und Kanäle zusammenlegen
+card_one_corrected = repmat(uint8(0),[size(r),3]);
+card_one_corrected(:,:,1) = uint8(round(r*255));
+card_one_corrected(:,:,2) = uint8(round(g*255));
+card_one_corrected(:,:,3) = uint8(round(b*255));
+
+figure();
 imshow(card_one_corrected);
 
 

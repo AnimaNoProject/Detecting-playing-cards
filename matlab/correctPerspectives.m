@@ -2,7 +2,7 @@
 function [first_perspcorrected_card] = correctPerspectives(first_colored_img, first_gray_image,second_colored_img, second_gray_img)
 [fcorner1, fcorner2, fcorner3, fcorner4]    = cornerDetection(first_gray_image);
 first_perspcorrected_card                   = perspectiveCorrection(first_colored_img, fcorner1, fcorner2, fcorner3, fcorner4);
-second_perspcorrected_card                  = geom_transf_lowercard(second_gray_img);
+second_perspcorrected_card                  = geom_transf_lowercard(second_gray_img,second_colored_img);
 % [scorner1, scorner2, scorner3, scorner4]  = cornerDetection(second_gray_img);
 % figure();
 % imshow(second_gray_img);
