@@ -5,7 +5,7 @@ close all;
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_11.jpg');
+input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_10.jpg');
 % write = 'Spiel 3_11.jpg';
 % input = imread('input/test_img_pers2a.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,6 +179,10 @@ card_one_corrected(:,:,3) = uint8(round(b*255));
 figure;
 imshow(card_one_corrected);
 
+card_two_corrected = geom_transf_lowercard(card_first, card_one);
+
+figure;
+imshow(card_two_corrected);
 %{
 %%%%%%%%find corner 2. Karte%%%%%%%%%%%%%
 %get bounding box of binary images

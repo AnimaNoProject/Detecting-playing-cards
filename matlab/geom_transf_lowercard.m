@@ -1,4 +1,4 @@
-function [ card_one_corrected ] = geom_transf_lowercard( card_first )
+function [ card_one_corrected ] = geom_transf_lowercard( card_first, card_one )
 %GEOM_TRANSF_CARD - transforms the lower card from perspective projection to
 %orthographic projection
 %   Author: Miran Jank, 1526438
@@ -223,16 +223,26 @@ d_l = pdist(links,'euclidean');
 d_r = pdist(rechts,'euclidean');
 
 % Kartenverhältnis 5:8 normal - 5:4 bei halber Karte
-base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)];
+base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)]*150;
 % Tansformation-Matrix 
 movPts = [c r];
 fixPts = base;
+tform = gettform2(movPts',fixPts');
 
-movPtsH = makehomogeneous(movPts');
-fixPtsH = makehomogeneous(fixPts');
-tform = gettform2(movPtsH,fixPtsH);
+% In double umwandeln
+card_one = double(card_one);     
+card_one = card_one/255;  
 
-card_one_corrected = geotransform(card_one, tform);
+% Kanäle einzeln transformieren
+[r] = geotransform2(card_one(:,:,1), tform);
+[g] = geotransform2(card_one(:,:,2), tform);
+[b] = geotransform2(card_one(:,:,3), tform);
+
+% Output erzeugen und Kanäle zusammenlegen
+card_one_corrected = repmat(uint8(0),[size(r),3]);
+card_one_corrected(:,:,1) = uint8(round(r*255));
+card_one_corrected(:,:,2) = uint8(round(g*255));
+card_one_corrected(:,:,3) = uint8(round(b*255));
 
 %---- Final result ----%
 %figure;
