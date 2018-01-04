@@ -10,8 +10,7 @@ function [ binary_image ] = thresholdotsu( gray_image )
     w_bg = 0;                      % gewichteter Hintergrund
     max_var = 0.0;                 % max_var "Between Class Variance"
     w_fg = 0;                      % gewichteter Vordergrund
-    m_fg = 0;                      % durchschnitt Vordergrund
-    m_bg = 0;                      % durchschnitt Hintergrund
+    m_fg = 0;
    
     % Grauwert mit der jeweiligen Anzahl der Pixel die den Grauwert haben
     % aufsummieren
@@ -20,13 +19,16 @@ function [ binary_image ] = thresholdotsu( gray_image )
     % Iterieren durch alle Grauwerte
     for gray=1:256
         
-        % Pixel des aktuellen Grauwerts zum Hintergrund aufsummieren
+        % Der gewichtete Hintergrund ergibt sich aus den 
+        % Grauwerten von 1 bis zum gerade in der Schleife iterierten
         w_bg = w_bg + histogramCounts(gray);
         
-        % Pixel die nicht zum Hintergrund gehoeren sind der Vordergrund
+        % Der gewichtete Hintergrund ergibt sich aus der Differenz
+        % zwischen dem gewichteten Hintergrund und der Gesamtzahl an Pixel
         w_fg = total - w_bg;
         
-        % gewichtete Summe des Hintergrunds aufsummieren
+        % Aufsummieren des Werts des Hintergrunds (Grauwert * Anzahl der
+        % Pixel, welche den Grauwert  besitzen
         sum_bg = sum_bg +  (gray-1) * histogramCounts(gray);
         
         % Durchschnitt des Hintergrunds
@@ -35,6 +37,9 @@ function [ binary_image ] = thresholdotsu( gray_image )
         % Durchschnitt des Vordergrunds
         m_fg = (sum1 - sum_bg) / w_fg;
         
+        % Distanz zwischen den Segmenten (Vordergrund & Hintergrund)
+        % Beschreibt wie Kompakt beide Segmente sind
+        %between = w_bg * w_fg * ((sum_bg / w_bg) - m_fg) * ((sum_bg / w_bg) - m_fg);
         % "Between Class Variance" berechnen
         between_var = w_bg * w_fg * (m_bg - m_fg) * (m_bg - m_fg);
         

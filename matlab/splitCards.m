@@ -1,45 +1,42 @@
 function [card_one, card_two] = splitCards(input_picture)
-%SPLITCARDS Summary of this function goes here
+%SPLITCARDS Karten mittels Otsu in ein Binaerbild umwandeln
+%           dann mit Connected Components trennen
+%           gibt 2 Karten, als Binärbilder, zurueck:
+%           card_one: untere Karte
+%           card_two: obere Karte
 %   Author:
-%   Jan Michael Lajarno
-
-       input_gray = rgb2gray(input_picture);
-%        input_gray = toGray(input_picture);
+%   Thorsten Korpitsch
+    % Bild in Graustufen umwandeln
+    input_gray = rgb2gray(input_picture);
     
-%     imshowpair(input_gray2, input_gray, 'Montage');
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % nach Otsu in ein Binaerbild umwandeln
+    binaryInput = thresholdotsu(input_gray);
     
-      threshHold = thresholdotsu(histcounts(input_gray(:), 256));
-% 
-    % Binarized Image
-%     binaryInput2 = imbinarize(input_gray, 0.47);
-    
-     binaryInput = (input_gray >= threshHold);
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-%     imshowpair(binaryInput, binaryInput2, 'Montage');
-    
-    % connected components
+    % Connected Components auf das Binärbild anwenden
     CC = bwconncomp(binaryInput);
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-    % Sort biggest Components
+    % Connected Components nach der Anzahl der Pixel sortieren
     numPixels = cellfun(@numel,CC.PixelIdxList);
     [biggest, idx] = sort(numPixels,'descend');
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %Fill the holes in the 2 components
+    % Dummy Bild erzeugen
     card_one = zeros(size(binaryInput));
+    
+    % Pixel groessten Zusammenhangskomponente auf 1 Setzen
     card_one(CC.PixelIdxList{idx(1)}) = 1;
+    % Loecher fuellen
     filled_first = imfill(card_one, 'holes');
-
+    
+    % Dummy Bild erzeugen
     card_two = zeros(size(binaryInput));
+    
+    % Pixel der 2. groessten Zusammenhangskomponente auf 1 Setzen
     card_two(CC.PixelIdxList{idx(2)}) = 1;
+    % Loecher fuellen
     filled_second = imfill(card_two, 'holes');
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %Decide which card is bigger by comparing the pixels
+    % Die Karte mit "mehr" Pixel ist die oberste Karte, die andere die
+    % Untere
     if(sum(filled_first) > sum(filled_second))
         card_one = filled_first;
         card_two = filled_second;
