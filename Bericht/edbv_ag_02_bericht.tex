@@ -43,15 +43,15 @@ Aleksandar Marinkovic (01634028)\\
 %%------------------------------------------------------
 \section{Gewählte Problemstellung}
 \subsection{Ziel}
-\textit{Beim Schnappsen treten 2 Spieler gegeneinander an. Zu Beginn bekommt jeder 5 Karten vom Stapel, danach wird jede Runde von beiden Spielern eine Karte gezogen. Jede Runde wird jeweils 1 Karte von jedem Spieler auf den Tisch gelegt wobei beide Spieler versuchen einen Stich zu machen.
+Beim Schnappsen treten 2 Spieler gegeneinander an. Zu Beginn bekommt jeder 5 Karten vom Stapel, danach wird jede Runde von beiden Spielern eine Karte gezogen. Jede Runde wird jeweils 1 Karte von jedem Spieler auf den Tisch gelegt wobei beide Spieler versuchen einen Stich zu machen.
 Stechen bedeutet, dass die eigene Karte entweder ein Adut ist und die Karte des gegenübers keines ist, beziehungsweise, dass die eigene Karte einen höheren Wert hat als die des Gegenübers. Es wird solange gespielt bis der Stapel leer ist und beide Spieler keine Karten mehr auf der Hand haben, beziehungsweise
-einer der Spieler Karten im Wert von 66 Punkten gestochen hat. Sind alle Karten ausgespielt worden, wird der Gewinner ermittelt indem die gewonnenen Punkte beider Spieler gezählt werden und danach der mit der höheren Punktezahl gewinnt.}
+einer der Spieler Karten im Wert von 66 Punkten gestochen hat. Sind alle Karten ausgespielt worden, wird der Gewinner ermittelt indem die gewonnenen Punkte beider Spieler gezählt werden und danach der mit der höheren Punktezahl gewinnt.
 \subsection{Eingabe}
-\textit{Der Benutzer muss pro Spielzug ein Farbbild, in einem gängigen Format(.PNG/.JPG/.JPEG), der Karten in das Programm laden.}
+Der Benutzer muss pro Spielzug ein Farbbild, in einem gängigen Format(.PNG/.JPG/.JPEG), der Karten in das Programm laden.
 \subsection{Ausgabe}
-\textit{In der Konsole wird ein Zwischenstand nach jeder Runde ausgegeben, am Ende wird der Gewinner ausgegeben und der Endstand.}
+In der Konsole wird ein Zwischenstand nach jeder Runde ausgegeben, am Ende wird der Gewinner ausgegeben und der Endstand.
 \subsection{Voraussetzungen und Bedingungen}
-\textit{Ein Farbbild der Karten. Der Hintergrund sollte möglichst Einfarbig sein (nicht weiß, texturarm). Die Kamera soll sich in einem Winkel von 45 bis 135 Grad befinden. Die Karten müssen mit einem dünnen schwarzen Rand preperiert sein. Die obere Karte darf maximal 45\% der anderen Karte überdecken.}
+Ein Farbbild der Karten. Der Hintergrund sollte möglichst Einfarbig sein (nicht weiß, texturarm). Die Kamera soll sich in einem Winkel von 45 bis 135 Grad befinden. Die Karten müssen mit einem dünnen schwarzen Rand preperiert sein. Die obere Karte darf maximal 45\% der anderen Karte überdecken.
 \subsection{Methodik}
 \begin{enumerate}
 	\item Threshold nach Otsu: Um in Kombination mit Zusammenhangskomponenten die Karten zu trennen
@@ -69,13 +69,13 @@ einer der Spieler Karten im Wert von 66 Punkten gestochen hat. Sind alle Karten 
 \begin{figure}[h!]
  \centering
  \includegraphics[width=0.5\textwidth]{datenbeispiel.jpg}
- \caption{Kreuz-Bube sticht Herz-König, 6 Punkte gewonnen}
+ \caption{Karo-Ass sticht Kreuz-Koenig (Farbzwang), 16 Punkte gewonnen}
  \label{fig:img}
 \end{figure}
 \begin{figure}[h!]
  \centering
  \includegraphics[width=0.5\textwidth]{datenbeispiel2.jpg}
- \caption{Kreuz-Bube sticht Pik-10, 12 Punkte gewonnen}
+ \caption{Karo-K\"onig sticht Karo-Dame, 7 Punkte gewonnen}
  \label{fig:img}
 \end{figure}
 
@@ -116,11 +116,11 @@ einer der Spieler Karten im Wert von 66 Punkten gestochen hat. Sind alle Karten 
     \hline
 		Jan Michael Lajarno & Matlab: Prototyp, ausführbares Programm, \newline Bericht: Methodik/Implementierung(Template Matching), Gewählte Problemstellung\\
 		\hline
-		Andreas Brunner & Matlab: Prototyp, tmc \newline Bericht: Arbeitsteilung\\
+		Andreas Brunner & Matlab: Prototyp, tmc.m \newline Bericht: Arbeitsteilung, Evaluierung\\
 		\hline
 		Miran Jank & Matlab: geometricTransform \newline Bericht: Methodik(Geometrische Transformation)\\
 		\hline
-		Thorsten Korpitsch & Matlab: Prototyp, splitCards, thresholdOtsu \newline Bericht: Evaluierung, Methodik/Implementierung (Threshold nach Otsu), Schlusswort\\
+		Thorsten Korpitsch & Matlab: Prototyp, splitCards.m, thresholdOtsu.m \newline Bericht: Evaluierung, Methodik/Implementierung (Threshold nach Otsu), Schlusswort\\
 		\hline
 		Aleksandar Marinkovic & Matlab: Prototyp, geometricTransform \newline Bericht: Implementierung(Geometrische Transformation)\\ 
 		\hline
