@@ -120,7 +120,7 @@ Ein Farbbild der Karten. Der Hintergrund sollte möglichst Einfarbig sein (nicht
 		\hline
 		Miran Jank & Matlab: geometricTransform \newline Bericht: Methodik(Geometrische Transformation)\\
 		\hline
-		Thorsten Korpitsch & Matlab: Prototyp, splitCards.m, thresholdOtsu.m \newline Bericht: Evaluierung, Methodik/Implementierung (Threshold nach Otsu), Schlusswort\\
+		Thorsten Korpitsch & Matlab: Prototyp, splitCards.m, thresholdOtsu.m \newline Bericht: Evaluierung, Methodik/Implementierung (Vorverarbeitung, Trennen der Karten), Schlusswort\\
 		\hline
 		Aleksandar Marinkovic & Matlab: Prototyp, geometricTransform \newline Bericht: Implementierung(Geometrische Transformation)\\ 
 		\hline
@@ -230,14 +230,12 @@ Unsere Schlussfolgerung ist, dass der Anfang des Projekts, also das finden geeig
 beziehungsweise einen ersten Prototypen zu entwickeln der schwierigste Schritt für uns waren. Insbesondere das finden der Karten
 auf dem Bild, bzw. die Findung der Kanten und Ecken um eine Geometrische Transformation im naechsten Schritt zu ermoeglichen.
 Sobald das erledigt war und wir beim Prototyping eine Methode (Canny-Edge-Detection) gegen eine andere ausgetauscht hatten (Threshold nach Otsu)
-ging es sehr zuegig voran und wir konnten die Zeit die wir aufholen, welche wir beim Prototyping verloren hatten.
-
+ging es sehr zuegig voran und wir konnten die Zeit die wir aufholen, welche wir beim Prototyping verloren hatten.\\
 Zurzeit gibt es noch Probleme, wenn der Hintergrund zu hell ist, werden die Karten teilweise nicht getrennt,
 da unser Programm die Karten mittels Threshold nach Otsu und der Zusammenhangskomponente trennt. Wird 
 dann der Hintergrund als Vordergrund erkannt und ist eine gr\"o\"sere Zusammenhangskomponente als die kleinere Karte, wird diese nicht mehr erkannt
-und stattdessen wird der Hintergrund als 2. Karte erkannt.
+und stattdessen wird der Hintergrund als 2. Karte erkannt.\\
 %%Mehr Probleme hier
-
 Eine grosse Verbesserung unserer Loesung waere, wenn die Karten nicht mit einem schwarzen Rand
 praepariert werden muessten. Beziehungsweise wenn man einen Schritt weiter geht, dass nicht ein
 bestimmtes Kartendeck verwendet werden muss, sondern ein beliebiges (Kartedecks unterscheiden sich oft
