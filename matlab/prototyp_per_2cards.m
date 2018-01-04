@@ -5,14 +5,8 @@
 %3. Template matching - resultat erhalten
 
 % Original Image
-<<<<<<< HEAD
-input = imread('input/test_img_pers2a.jpg');
-%input = imread('input/test2.jpg');
-%input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1_mod11.jpg');
-=======
 %input = imread('input/testc2.jpg');
 input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_1.jpg');
->>>>>>> 754e3b794fdb70d58e1a872b49ab6b006c6cba6c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -409,12 +403,12 @@ fixPts = base;
 
 movPtsH = makehomogeneous(movPts');
 fixPtsH = makehomogeneous(fixPts');
-tform = gettform(movPtsH,fixPtsH);
+tform = gettform2(movPtsH,fixPtsH);
 
 card_one_corrected = geotransform(card_one, tform);
 
-%figure;
-%imshow(card_one_corrected);
+figure;
+imshow(card_one_corrected);
 
 
 
