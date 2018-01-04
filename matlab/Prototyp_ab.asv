@@ -138,16 +138,16 @@
 
 close all;
 % Output der Geometrischen Transformation
-target = imread('Output/Spiel 1_7.jpg');
+target = imread('Output/Spiel 2_8.jpg');
 
 % Template Bilder aller Symbole bzw Buchstaben und 10
 template_karo = imread('input/Datensaetze/Templates/karo.png');
-template_herz = imread('input/Datensaetze/Templates/herz.png');
+template_herz = imread('input/Datensaetze/Templates/herz_2.png');
 template_pik = imread('input/Datensaetze/Templates/pik.png');
 template_kreuz = imread('input/Datensaetze/Templates/kreuz.png');
 
 template_ass = imread('input/Datensaetze/Templates/ass.png');
-template_zehn = imread('input/Datensaetze/Templates/zehn.png');
+template_zehn = imread('input/Datensaetze/Templates/zehn_2.png');
 template_koenig = imread('input/Datensaetze/Templates/koenig.png');
 template_dame = imread('input/Datensaetze/Templates/dame.png');
 template_bube = imread('input/Datensaetze/Templates/bube.png');
@@ -176,21 +176,25 @@ template_koenig = imresize(template_koenig, 0.7, 'nearest');
 template_dame = imresize(template_dame, 0.7, 'nearest');
 template_bube = imresize(template_bube, 0.7, 'nearest');
 
+% figure;
+% imshow(template);
+
 % Ergebnisvektor der anschlieﬂend ausgewertet wird
-symbol(1) = tmcTopCard(target, template_karo); 
-symbol(2) = tmcTopCard(target, template_herz); 
-symbol(3) = tmcTopCard(target, template_kreuz); 
-symbol(4) = tmcTopCard(target, template_pik); 
+symbol(1) = tmc(target, template_karo); 
+symbol(2) = tmc(target, template_herz); 
+symbol(3) = tmc(target, template_kreuz); 
+symbol(4) = tmc(target, template_pik); 
+
 [value_symbol, index_symbol] = max(symbol);
 
-letter(1) = tmcTopCard(target, template_ass); 
-letter(2) = tmcTopCard(target, template_zehn); 
-letter(3) = tmcTopCard(target, template_koenig); 
-letter(4) = tmcTopCard(target, template_dame); 
-letter(5) = tmcTopCard(target, template_bube); 
+letter(1) = tmc(target, template_ass); 
+letter(2) = tmc(target, template_zehn); 
+letter(3) = tmc(target, template_koenig); 
+letter(4) = tmc(target, template_dame); 
+letter(5) = tmc(target, template_bube); 
+
 [value_letter, index_letter] = max(letter);
 
-% Auswertung der Ergebnisvektoren und Ausgabe auf der Konsole
 if (index_symbol == 1)
     fprintf('Symbol der oberen Karte: Karo\n' );
 elseif ( index_symbol == 2 )
