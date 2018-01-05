@@ -26,6 +26,7 @@ image = imread(img_path);
 
 %start template matching to determine the value of the top and bottom
 %card
+fprintf('values of cards determined with template matching');
 [index_symbol_top, index_letter_top]        = decideCard(first_perspcorrected_card, 1);
 [index_symbol_bottom, index_letter_bottom]  = decideCard(second_perspcorrected_card, 0);
 
