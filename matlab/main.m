@@ -14,7 +14,7 @@ function [result] = main(img_path)
     [second_perspcorrected_card]    = geom_transf_lowercard(first_binary_image,first_rgb_image);
 
     %start template matching
-    decideCard(first_perspcorrected_card, 1);
+    [index_symbol, index_letter] = decideCard(first_perspcorrected_card, 1);
     
     clc;
     clear all;

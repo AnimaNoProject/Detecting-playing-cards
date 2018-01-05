@@ -1,4 +1,4 @@
-function [value_symbol, index_symbol, value_letter, index_letter] = decideCard( target, isTOP)
+function [index_symbol, index_letter] = decideCard( target, isTOP)
 %   Author: Jan Michael Laranjo
 %   Detailed explanation:
 %   INPUT:
