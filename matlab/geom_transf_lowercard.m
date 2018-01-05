@@ -156,8 +156,8 @@ elseif(longestpath == distLU)
         newcorner = secondcorner - fourthcorner;
         betragnewcorner = norm(newcorner);
         einheitsvektor = newcorner/betragnewcorner;
-        einheitsvektor = einheitsvektor * (longestpath - shortestpath);
-        newcorner = fourthcorner + einheitsvektor;
+        einheitsvektor = einheitsvektor / (longestpath - shortestpath);
+        newcorner =  fourthcorner + einheitsvektor;
         
         fourthcorner = newcorner;
     elseif(shortestpath == distUR || secondshortestpath == distUR)
@@ -213,7 +213,6 @@ end
 
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
 
-% Auf beide Arten transformieren und nach der größeren Genaugkeit auswählen
 r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
 c = [corners(1,2) corners(2,2) corners(3,2) corners(4,2)]';
 % Verhältnis zwischen der linken und rechten Seite
@@ -227,16 +226,16 @@ base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)]*150;
 % Tansformation-Matrix 
 movPts = [c r];
 fixPts = base;
-tform = gettform2(movPts',fixPts');
+tform = gettform(movPts',fixPts');
 
 % In double umwandeln
 card_one = double(card_one);     
 card_one = card_one/255;  
 
-% Kanäle einzeln transformieren
-[r] = geotransform2(card_one(:,:,1), tform);
-[g] = geotransform2(card_one(:,:,2), tform);
-[b] = geotransform2(card_one(:,:,3), tform);
+% RGB-Kanäle einzeln transformieren
+[r] = geotransform(card_one(:,:,1), tform);
+[g] = geotransform(card_one(:,:,2), tform);
+[b] = geotransform(card_one(:,:,3), tform);
 
 % Output erzeugen und Kanäle zusammenlegen
 card_one_corrected = repmat(uint8(0),[size(r),3]);

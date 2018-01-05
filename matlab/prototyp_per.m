@@ -5,8 +5,8 @@ close all;
 %3. Template matching - resultat erhalten
 
 % Original Image
-input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_10.jpg');
-% write = 'Spiel 3_11.jpg';
+input = imread('input/Datensaetze/Spielsimulation/Spiel 3/Spielzug_9.jpg');
+% write = 'Output/untere Karte/Spiel 3_8u.jpg';
 % input = imread('input/test_img_pers2a.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -66,21 +66,21 @@ card_two(:,:,3) = double(card_two(:,:,3)) .* card_second(:,:);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Show both cards
-imshowpair(card_one, card_two, 'Montage');
+ imshowpair(card_one, card_two, 'Montage');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %grayscale of the two single cards
 card_one_gray = rgb2gray(card_one);
 card_two_gray = rgb2gray(card_two);
 
-
+%{
 %%%%%%%%find corner%%%%%%%%%%%%%
 %get bounding box of binary images
 boundingbox     = regionprops(card_second, 'BoundingBox');
-%figure;
-%imshow(card_one)
-%hold on
-%rectangle('Position', [32.5 247.5 228 263],	'EdgeColor','r', 'LineWidth', 2)
+figure;
+imshow(card_two)
+hold on
+rectangle('Position', [73.5000000000000 499.500000000000 1113 1088],	'EdgeColor','r', 'LineWidth', 2)
 boxproperties   = boundingbox.BoundingBox;
 left            = round(boxproperties(1));
 top             = round(boxproperties(2));
@@ -158,31 +158,33 @@ end
 movPts = [c r];
 fixPts = base;
 
-tform = gettform2(movPts',fixPts');
+tform = gettform(movPts',fixPts');
 
 % In double umwandeln
 card_two = double(card_two);     
 card_two = card_two/255;  
 
 % Kanäle einzeln transformieren
-[r] = geotransform2(card_two(:,:,1), tform);
-[g] = geotransform2(card_two(:,:,2), tform);
-[b] = geotransform2(card_two(:,:,3), tform);
+[r] = geotransform(card_two(:,:,1), tform);
+[g] = geotransform(card_two(:,:,2), tform);
+[b] = geotransform(card_two(:,:,3), tform);
 
 % Output erzeugen und Kanäle zusammenlegen
 card_one_corrected = repmat(uint8(0),[size(r),3]);
 card_one_corrected(:,:,1) = uint8(round(r*255));
 card_one_corrected(:,:,2) = uint8(round(g*255));
 card_one_corrected(:,:,3) = uint8(round(b*255));
-
 % imwrite(card_one_corrected, write);
 figure;
 imshow(card_one_corrected);
-
-card_two_corrected = geom_transf_lowercard(card_first, card_one);
-
+%}
+card_one_corrected = geom_transf_lowercard(card_first, card_one);
+% card_two_corrected = geom_transf_uppercard(card_second, card_two);
+% imwrite(card_one_corrected, write);
 figure;
-imshow(card_two_corrected);
+% imshow(card_two_corrected);
+
+imshowpair(card_one_corrected, card_two_corrected, 'Montage');
 %{
 %%%%%%%%find corner 2. Karte%%%%%%%%%%%%%
 %get bounding box of binary images
