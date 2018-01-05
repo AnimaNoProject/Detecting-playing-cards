@@ -31,6 +31,7 @@ fprintf('values of cards determined with template matching');
 [index_symbol_bottom, index_letter_bottom]  = decideCard(second_perspcorrected_card, 0);
 
 %finally the result of the game can be determined
+fprintf('result of the game is evaluated');
 result = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom);
 end
 
