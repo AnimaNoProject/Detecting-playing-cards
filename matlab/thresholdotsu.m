@@ -2,6 +2,13 @@ function [ binary_image ] = thresholdotsu( gray_image )
 %THRESHOLDOTSU Threshhold nach Otsu
 %   Author:
 %   Thorsten Korpitsch, 1529243
+%   
+%   Eingabe: Graustufenbild
+%   Ausgabe: Binärbild
+%      
+%   Die Funktion wandelt ein Graustufenbild in ein Binärbild um
+%   mittels der Methode von Otsu.
+%
     histogramCounts = histcounts(gray_image(:), 256);
 
     total = sum(histogramCounts);  % Gesamtzahld der Pixel
