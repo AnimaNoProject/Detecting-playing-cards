@@ -6,7 +6,7 @@
 
 % Original Image
 %input = imread('input/testc2.jpg');
-input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_2.jpg');
+input = imread('input/Datensaetze/Spielsimulation/Spiel 1/Spielzug_5.jpg');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Grayscale image
@@ -401,16 +401,16 @@ base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)]*150;
 movPts = [c r];
 fixPts = base;
 
-tform = gettform2(movPts',fixPts');
+tform = getTform(movPts',fixPts');
 
 % In double umwandeln
 card_one = double(card_one);     
 card_one = card_one/255;  
 
 % Kanäle einzeln transformieren
-[r] = geotransform2(card_one(:,:,1), tform);
-[g] = geotransform2(card_one(:,:,2), tform);
-[b] = geotransform2(card_one(:,:,3), tform);
+[r] = geotransform(card_one(:,:,1), tform);
+[g] = geotransform(card_one(:,:,2), tform);
+[b] = geotransform(card_one(:,:,3), tform);
 
 % Output erzeugen und Kanäle zusammenlegen
 card_one_corrected = repmat(uint8(0),[size(r),3]);
