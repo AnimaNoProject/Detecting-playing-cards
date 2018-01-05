@@ -1,20 +1,21 @@
 %final implementaion
 function [result] = main(img_path)
     image = imread(img_path);
-    %split card results are 2 binary images
+    %splitCards results are 2 binary images
     %the first card is the bigger one
     [first_binary_image, second_binary_image] = splitCards(image);
     %get the colored result of the split cards
     [first_rgb_image, second_rgb_image] = getSplitColoredCard(image, first_binary_image, second_binary_image);
     %get grayscale images 
-    theta = 90;
-    rotationMatrix = [cosd(theta) -sind(theta); sind(theta) cosd(theta)];
-    first_gray_image    = rgb2gray(first_rgb_image);
-    second_gray_image   = rgb2gray(second_rgb_image);
+%     first_gray_image    = rgb2gray(first_rgb_image);
+%     second_gray_image   = rgb2gray(second_rgb_image);
     %correct the perspective of the 2 cards
     [first_perspcorrected_card]     = correctPerspectives(first_rgb_image, first_binary_image, second_rgb_image, second_binary_image);
     [second_perspcorrected_card]    = geom_transf_lowercard(first_binary_image,first_rgb_image);
 
+    %start template matching
+    decideCard(first_perspcorrected_card, 1);
+    
     clc;
     clear all;
 end

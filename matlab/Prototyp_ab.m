@@ -138,7 +138,7 @@
 
 close all;
 % Output der Geometrischen Transformation
-target = imread('Output/Spiel 1_7.jpg');
+target = imread('Output/obere Karte/Spiel 1_7.jpg');
 
 % Template Bilder aller Symbole bzw Buchstaben und 10
 template_karo = imread('input/Datensaetze/Templates/karo.png');
