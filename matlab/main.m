@@ -15,6 +15,13 @@ function [result] = main(img_path)
 %read the image
 clc;
 image = imread(img_path);
+% [height, width, dimension] = size(image);
+% if(height > 2000 && width > 2000)
+%     image = imresize(image, 0.1);
+% end
+% if(height > 1000 && width > 1000)
+%     image = imresize(image, 0.32);
+% end
 %splitCards results are 2 binary images
 %the first card is the bigger one
 [first_binary_image, second_binary_image] = splitCards(image);
@@ -26,12 +33,12 @@ image = imread(img_path);
 
 %start template matching to determine the value of the top and bottom
 %card
-fprintf('values of cards determined with template matching');
+fprintf('values of cards determined with template matching\n');
 [index_symbol_top, index_letter_top]        = decideCard(first_perspcorrected_card, 1);
 [index_symbol_bottom, index_letter_bottom]  = decideCard(second_perspcorrected_card, 0);
 
 %finally the result of the game can be determined
-fprintf('result of the game is evaluated');
+fprintf('result of the game is evaluated\n');
 result = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom);
 end
 
