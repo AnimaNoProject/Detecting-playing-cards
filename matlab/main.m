@@ -25,6 +25,7 @@ for i = 3 : length(files)
     end
     [textualRoundResult, pointsTop, pointsBottom] = simulateCurrentRound(fileName);
     isBottomCardWin = pointsBottom > pointsTop;
+    fprintf(textualRoundResult);
     if(isBottomCardWin && isBottomCardFirstPlayer)   
         %bottom card(winner) was thrown by the first player
         isBottomCardFirstPlayer = 1;
@@ -51,7 +52,7 @@ for i = 3 : length(files)
         fprintf('Erster Spieler hat mit der unteren Karte gewonnen. Erster Spieler wirft als Erster in der nächste Runde!\n'); 
     end
     currentPoints = ['aktueller Punktestand: \nerster Spielter: ' num2str(sumFirstPlayer) '\nzweiter Spieler: ' num2str(sumSecondPlayer) '\n'];
-    fprintf([currentPoints textualRoundResult '\n']);
+    fprintf([currentPoints '\n']);
 end
 
 end
