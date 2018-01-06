@@ -28,9 +28,9 @@ function maxcorr = templateMatcher( target, template, isTOP)
     % are sure that we have the full picture
     % 1 for upper card
     % 2 for lower card
-    factor = 0.75;
+    factor = 0.5;
     if (isTOP == 1)
-        factor = 0.25;
+        factor = 0.3;
     end;
 
     % convert both images to grayscale images with the help of Otsu Thresholding
@@ -59,7 +59,6 @@ function maxcorr = templateMatcher( target, template, isTOP)
     % find the maximum value of the correlation matrix
     maxpt = max(corr_map(:));
     maxcorr = maxpt;
-
 end
 
 

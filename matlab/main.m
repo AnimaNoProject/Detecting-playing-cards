@@ -13,6 +13,7 @@ function [result] = main(img_path)
 %   Finally it can be determined a 'Stich' occured.
 %
 %read the image
+tic;
 clc;
 image = imread(img_path);
 %splitCards results are 2 binary images
@@ -26,13 +27,15 @@ image = imread(img_path);
 
 %start template matching to determine the value of the top and bottom
 %card
-fprintf('values of cards determined with template matching');
+fprintf('determining first card');
 [index_symbol_top, index_letter_top]        = decideCard(first_perspcorrected_card, 1);
+fprintf('determining second card');
 [index_symbol_bottom, index_letter_bottom]  = decideCard(second_perspcorrected_card, 0);
 
 %finally the result of the game can be determined
 fprintf('result of the game is evaluated');
 result = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom);
+toc
 end
 
 function [first_rgb_image, second_rgb_image] = getSplitColoredCard(image, first_binary_image, second_binary_image)
