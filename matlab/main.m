@@ -9,23 +9,55 @@ function [] = main(folder_path)
 %   determined to get result of the current game.
 files = dir(folder_path);
 %first player has the bottom card
+%isBottomCardFirstPlayer is true, when the first player throws the first
+%card, else means that the second player starts first
+isBottomCardFirstPlayer = 1;
+sumFirstPlayer          = 0;
+sumSecondPlayer         = 0;
 for i = 3 : length(files)
     round       = i - 2;
     fileName    = [folder_path '\' files(i).name];
     fprintf(['--- Spielzug ' num2str(round) '---\n']);
-    [textualRoundResult pointsTop pointsBottom] = simulateCurrentRound(fileName);
-    if(isBottomCardWin && isBottomCardFirstPlayer)   
-        %erster player gewinnt
-        isBottomCardFirstPlayer = 1;
+    if(isBottomCardFirstPlayer)
+        fprintf('Erster Spieler wirft zuerst\n');
     else
+        fprintf('Zweiter Spieler wirft zuerst\n');
     end
-    fprintf([textualRoundResult '\n\n']);
+    [textualRoundResult, pointsTop, pointsBottom] = simulateCurrentRound(fileName);
+    isBottomCardWin = pointsBottom > pointsTop;
+    if(isBottomCardWin && isBottomCardFirstPlayer)   
+        %bottom card(winner) was thrown by the first player
+        isBottomCardFirstPlayer = 1;
+        sumFirstPlayer  = sumFirstPlayer + pointsBottom;
+        sumSecondPlayer = sumSecondPlayer + pointsTop;
+        fprintf('Erster Spieler hat mit der unteren Karte gewonnen. Erster Spieler wirft als Erster in der nächste Runde!\n'); 
+    elseif(isBottomCardWin && ~isBottomCardFirstPlayer)
+        %bottom card(winner) was thrown by the second player
+        isBottomCardFirstPlayer = 0;
+        sumFirstPlayer  = sumFirstPlayer + pointsTop;
+        sumSecondPlayer = sumSecondPlayer + pointsBottom;
+        fprintf('Zweiter Spieler hat mit der unteren Karte gewonnen. Zweiter Spieler wirft als Erster in der nächste Runde!\n'); 
+    elseif(~isBottomCardWin && isBottomCardFirstPlayer)
+        %top card(winner) was thrown by the second player 
+        isBottomCardFirstPlayer = 0;
+        sumFirstPlayer  = sumFirstPlayer + pointsBottom;
+        sumSecondPlayer = sumSecondPlayer + pointsTop;
+        fprintf('Zweiter Spieler hat mit der oberen Karte gewonnen. Zweiter Spieler wirft als Erster in der nächste Runde!\n'); 
+    elseif(~isBottomCardWin && ~isBottomCardFirstPlayer)
+        %top card(winner) was thrown by the first player 
+        isBottomCardFirstPlayer = 1;
+        sumFirstPlayer  = sumFirstPlayer + pointsBottom;
+        sumSecondPlayer = sumSecondPlayer + pointsTop;
+        fprintf('Erster Spieler hat mit der unteren Karte gewonnen. Erster Spieler wirft als Erster in der nächste Runde!\n'); 
+    end
+    currentPoints = ['aktueller Punktestand: \nerster Spielter: ' num2str(sumFirstPlayer) '\nzweiter Spieler: ' num2str(sumSecondPlayer) '\n'];
+    fprintf([currentPoints textualRoundResult '\n']);
 end
 
 end
  
 
-function [textualRoundResult pointsTop pointsBottom] = simulateCurrentRound(img_path)
+function [textualRoundResult, pointsTop, pointsBottom] = simulateCurrentRound(img_path)
 %   Author: Jan Michael Laranjo
 %   Detailed explanation:
 %   INPUT:
@@ -58,5 +90,5 @@ fprintf('Wert der Karten werden bestimmt\n');
 
 %finally the result of the game can be determined
 fprintf('Die Runde wird ausgewertet.\n');
-[textualRoundResult pointsTop pointsBottom] = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom); 
+[textualRoundResult, pointsTop, pointsBottom] = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom); 
 end

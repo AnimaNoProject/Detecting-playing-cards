@@ -1,4 +1,4 @@
-function [textualRoundResult pointsTop pointsBottom] = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom)
+function [textualRoundResult,pointsTop,pointsBottom] = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom)
 %   Author: Jan Michael Laranjo
 %   Detailed explanation:
 %   INPUT:
