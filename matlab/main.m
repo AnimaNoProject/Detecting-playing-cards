@@ -8,18 +8,24 @@ function [] = main(folder_path)
 %   projections have to be corrected and finally the cards can be
 %   determined to get result of the current game.
 files = dir(folder_path);
+%first player has the bottom card
 for i = 3 : length(files)
     round       = i - 2;
     fileName    = [folder_path '\' files(i).name];
-    fprintf(['--- Runde ' num2str(round) '---\n']);
-    [textualRoundResult isTopWin] = simulateCurrentRound(fileName); 
+    fprintf(['--- Spielzug ' num2str(round) '---\n']);
+    [textualRoundResult pointsTop pointsBottom] = simulateCurrentRound(fileName);
+    if(isBottomCardWin && isBottomCardFirstPlayer)   
+        %erster player gewinnt
+        isBottomCardFirstPlayer = 1;
+    else
+    end
     fprintf([textualRoundResult '\n\n']);
 end
 
 end
  
 
-function [textualRoundResult isTopWin] = simulateCurrentRound(img_path)
+function [textualRoundResult pointsTop pointsBottom] = simulateCurrentRound(img_path)
 %   Author: Jan Michael Laranjo
 %   Detailed explanation:
 %   INPUT:
@@ -52,5 +58,5 @@ fprintf('Wert der Karten werden bestimmt\n');
 
 %finally the result of the game can be determined
 fprintf('Die Runde wird ausgewertet.\n');
-[textualRoundResult isTopWin] = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom); 
+[textualRoundResult pointsTop pointsBottom] = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom); 
 end
