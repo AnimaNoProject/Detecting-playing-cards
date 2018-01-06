@@ -28,15 +28,12 @@ function [isCorrectEdge] = isCorrectEdge(currentCorner, corners)
 %   Author: Jan Michael Laranjo
 %   Detailed explanation:
 %   INPUT:
-%       currentCorner   --> represents the corner to be examined
-%       corners         --> vectors of every other corners of the card
+%       currentCorner   --> represents the first corner
+%       corners         --> represents the second corner
 %   OUTPUT:
-%       isCorrectEdge   --> is the flag if the card is a correct corner.
-%       This can be determined by the ratio of the card. The card has to
-%       have the correct ratio of 5:8 and if a wrong corner is declared as
-%       correct, the card would have a wrong ratio, thus this corner is
-%       wrong.
-%   determines if the edge is a correct corner
+%       isCorrectEdge  --> is the flag if the card is a correct corner.
+%       This can be det
+%   
     u = norm(corners(1,:) - currentCorner);
     v = norm(corners(2,:) - currentCorner);
     w = norm(corners(3,:) - currentCorner);
@@ -52,15 +49,6 @@ end
 
 % u > v && u:v = 5:8
 function [isRatioCorrect] = isRatioCorrect(u, v)
-%   Author: Jan Michael Laranjo
-%   Detailed explanation:
-%   INPUT:
-%       u               --> first edge adjacent to the corner to be examined
-%       v               --> second edge adjacent to the corner to be examined
-%   OUTPUT:
-%       isRatioCorrect  --> is true if the edges adjacent to the card have
-%       the correct ratio of 5:8
-%   check if the edges have the correct ratio of 5:8
     ratio = (8 * u) / (5 * v);
     threshold = 0.3;
     if((ratio > (1 - threshold)) && (ratio < (1 + threshold)))
@@ -71,15 +59,6 @@ function [isRatioCorrect] = isRatioCorrect(u, v)
 end
 
 function[correctCorners] = getCorrectCorners(currentCorner, corners)
-%   Author: Jan Michael Laranjo
-%   Detailed explanation:
-%   INPUT:
-%       currentCorner   --> represents the corner to be examined
-%       corners         --> vectors of every other corners of the card
-%   OUTPUT:
-%       correctCorners  --> vectors of the correctCorners
-%   returns the correct corners of the card. The wrong dected corners get
-%   discarded
     u = norm(corners(1,:) - currentCorner);
     v = norm(corners(2,:) - currentCorner);
     w = norm(corners(3,:) - currentCorner);
