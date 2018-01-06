@@ -29,29 +29,25 @@ for i = 3 : length(files)
     if(isBottomCardWin && isBottomCardFirstPlayer)   
         %bottom card(winner) was thrown by the first player
         isBottomCardFirstPlayer = 1;
-        sumFirstPlayer  = sumFirstPlayer + pointsBottom;
-        sumSecondPlayer = sumSecondPlayer + pointsTop;
+        sumFirstPlayer  = sumFirstPlayer + pointsBottom + pointsTop;
         fprintf('Erster Spieler hat mit der unteren Karte gewonnen. Erster Spieler wirft als Erster in der nächste Runde!\n'); 
     elseif(isBottomCardWin && ~isBottomCardFirstPlayer)
         %bottom card(winner) was thrown by the second player
         isBottomCardFirstPlayer = 0;
-        sumFirstPlayer  = sumFirstPlayer + pointsTop;
-        sumSecondPlayer = sumSecondPlayer + pointsBottom;
+        sumFirstPlayer  = sumFirstPlayer + pointsBottom + pointsTop;
         fprintf('Zweiter Spieler hat mit der unteren Karte gewonnen. Zweiter Spieler wirft als Erster in der nächste Runde!\n'); 
     elseif(~isBottomCardWin && isBottomCardFirstPlayer)
         %top card(winner) was thrown by the second player 
         isBottomCardFirstPlayer = 0;
-        sumFirstPlayer  = sumFirstPlayer + pointsBottom;
-        sumSecondPlayer = sumSecondPlayer + pointsTop;
+        sumSecondPlayer = sumSecondPlayer + pointsBottom + pointsTop;
         fprintf('Zweiter Spieler hat mit der oberen Karte gewonnen. Zweiter Spieler wirft als Erster in der nächste Runde!\n'); 
     elseif(~isBottomCardWin && ~isBottomCardFirstPlayer)
         %top card(winner) was thrown by the first player 
         isBottomCardFirstPlayer = 1;
-        sumFirstPlayer  = sumFirstPlayer + pointsBottom;
-        sumSecondPlayer = sumSecondPlayer + pointsTop;
+        sumSecondPlayer = sumSecondPlayer + pointsBottom + pointsTop;
         fprintf('Erster Spieler hat mit der unteren Karte gewonnen. Erster Spieler wirft als Erster in der nächste Runde!\n'); 
     end
-    currentPoints = ['aktueller Punktestand: \nerster Spielter: ' num2str(sumFirstPlayer) '\nzweiter Spieler: ' num2str(sumSecondPlayer) '\n'];
+    currentPoints = ['aktueller Punktestand: \nSpieler 1: ' num2str(sumFirstPlayer) '\nSpieler 2: ' num2str(sumSecondPlayer) '\n'];
     fprintf([currentPoints '\n']);
 end
 
