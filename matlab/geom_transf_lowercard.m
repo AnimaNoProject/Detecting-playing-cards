@@ -7,20 +7,6 @@ function [ card_one_corrected ] = geom_transf_lowercard( card_first, card_one )
 
 [firstcorner, secondcorner, thirdcorner, fourthcorner] = cornerDetection(card_first);
 
-%---- Test for all corners ----%
-
-%figure();
-%imshow(card_one_gray);
-%hold on;
-%plot(10,10,'x');
-%plot(30,10,'x');
-%plot(10,30,'x');
-%plot(firstcorner(2),firstcorner(1), '+');
-%plot(secondcorner(2),secondcorner(1), '*');
-%plot(thirdcorner(2),thirdcorner(1), 's');
-%plot(fourthcorner(2),fourthcorner(1), 'o');
-%hold off;
-
 %---- Get distance of all relevant edges ----%
 
 distOL = round(pdist([firstcorner;secondcorner],'euclidean'));
@@ -149,22 +135,6 @@ elseif(longestpath == distUR)
     end
 end
 
-
-%---- Test for all corners including the new one ----%
-
-%figure();
-%imshow(card_one_gray);
-%hold on;
-%plot(10,10,'x');
-%plot(30,10,'o');
-%plot(10,30,'s');
-%plot(firstcorner(2),firstcorner(1), '+');
-%plot(secondcorner(2),secondcorner(1), '*');
-%plot(thirdcorner(2),thirdcorner(1), 's');
-%plot(fourthcorner(2),fourthcorner(1), 'o');
-%plot(newcorner(2),newcorner(1), 'p'); % um alle punkte korrekt zu sehen -> lösche eckenneuzuweisung
-%hold off;
-
 corners = [firstcorner;secondcorner;thirdcorner;fourthcorner];
 
 r = [corners(1,1) corners(2,1) corners(3,1) corners(4,1)]';
@@ -196,9 +166,5 @@ card_one_corrected = repmat(uint8(0),[size(r),3]);
 card_one_corrected(:,:,1) = uint8(round(r*255));
 card_one_corrected(:,:,2) = uint8(round(g*255));
 card_one_corrected(:,:,3) = uint8(round(b*255));
-
-%---- Final result ----%
-%figure;
-%imshow(card_one_corrected);
 end
 
