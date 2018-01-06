@@ -7,7 +7,7 @@
 %       H   - 3x3 Matrix
 %   Author: Aleksandar Marinkovic 01634028
 
-function H = gettform(fix,mov)
+function H = getTransformationMatrix(fix,mov)
     
     % Anzahl der Punkte
     npts=4;         
