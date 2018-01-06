@@ -1,4 +1,4 @@
-function result = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom)
+function [textualRoundResult isTopWin] = getResultOfMatch(index_symbol_top, index_letter_top, index_symbol_bottom, index_letter_bottom)
 %   Author: Jan Michael Laranjo
 %   Detailed explanation:
 %   INPUT:
@@ -11,5 +11,6 @@ function result = getResultOfMatch(index_symbol_top, index_letter_top, index_sym
 %   is responsible for the game logic.The method determines which card gives
 %   the 'Stich'.
 % Auswertung der Ergebnisvektoren und Ausgabe auf der Konsole
-    result = ['Obere Karte: ' card2string(index_symbol_top, index_letter_top) ' vs. Untere Karte: ' card2string(index_symbol_bottom, index_letter_bottom)];
+    textualRoundResult = ['Obere Karte: ' card2string(index_symbol_top, index_letter_top) ' vs. Untere Karte: ' card2string(index_symbol_bottom, index_letter_bottom) '\n'];
+    isTopWin = 1;
 end
