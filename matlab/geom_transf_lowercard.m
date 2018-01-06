@@ -226,7 +226,7 @@ base = [0 0; 0 4; 5 0; 5 4*(d_r/d_l)]*150;
 % Tansformation-Matrix 
 movPts = [c r];
 fixPts = base;
-tform = gettform(movPts',fixPts');
+tform = getTform(movPts',fixPts');
 
 % In double umwandeln
 card_one = double(card_one);     

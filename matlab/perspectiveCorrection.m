@@ -16,7 +16,7 @@ function [orthogonalpersp_card] = perspectiveCorrection(img, firstcorner, second
     %%%%%%%%%%%%%%%%%%% Tansformation-Matrix %%%%%%%%%%%%%%%%%%%
     movPts  = [c r];
     fixPts  = base;
-    tform   = gettform(movPts',fixPts');
+    tform   = getTform(movPts',fixPts');
 
     img=double(img);
     img=img/255;
